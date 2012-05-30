@@ -1,14 +1,26 @@
 #!/usr/bin/python
 
+import time
+
 # Screens
 import metricsathome.WhiteScreen
 import metricsathome.BlackScreen
 
 # Display Drivers
-import metricsathome.SamsungUSBDriver
+#import metricsathome.SamsungUSBDriver
+import metricsathome.X11Driver
 
 # Controllers
-import metricsathome.ScreenController
+#import metricsathome.ScreenController
 
-ScreenController.run()
+#ScreenController.run()
+
+ws = metricsathome.WhiteScreen.WhiteScreen()
+display = metricsathome.X11Driver.X11Driver()
+disinfo = display.getInfo()
+
+while display.devicePresent():
+  display.process()
+  display.showFrame(ws.getImage(disinfo['width'], disinfo['height']))
+
 
