@@ -20,6 +20,7 @@ class X11Frame(wx.Frame):
 
   def _callback(self,evt,a,f):
     # Closes the window upon any keypress
+    self._timer.Stop()
     self.Hide()
 
 
