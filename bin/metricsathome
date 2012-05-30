@@ -5,6 +5,7 @@ import time
 # Screens
 import metricsathome.WhiteScreen
 import metricsathome.BlackScreen
+import metricsathome.HelloWorldScreen
 
 # Display Drivers
 #import metricsathome.SamsungUSBDriver
@@ -15,12 +16,14 @@ import metricsathome.X11Driver
 
 #ScreenController.run()
 
-ws = metricsathome.WhiteScreen.WhiteScreen()
+s = metricsathome.HelloWorldScreen.HelloWorldScreen()
 display = metricsathome.X11Driver.X11Driver()
 disinfo = display.getInfo()
 
 while display.devicePresent():
   display.process()
-  display.showFrame(ws.getImage(disinfo['width'], disinfo['height']))
+  frame = s.getImage(disinfo['width'], disinfo['height'])
+  if not frame == None:
+    display.showFrame(frame)
 
 
