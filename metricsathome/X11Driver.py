@@ -4,9 +4,11 @@ import Image
 import threading
 
 class X11Frame(wx.Frame):
-  def __init__(self):
+  def __init__(self, width, height):
     wx.Frame.__init__(self, None, wx.ID_ANY,
-    "Metrics At Home X11", size=(320,240))
+    "Metrics At Home X11", size=(width, height))
+    self._swidth = width
+    self._sheight = height
     self._newFrame = False
     wx.EVT_CHAR(self,self._callback)
     self._curframe = None
@@ -16,7 +18,7 @@ class X11Frame(wx.Frame):
   def updFrame(self, evt):
     self._framelock.acquire()
     if self._curframe != None and self._newFrame:
-      wximage = wx.EmptyImage(320, 240)
+      wximage = wx.EmptyImage(self._swidth, self._sheight)
       wximage.SetData(self._curframe.convert('RGB').tostring())
       bitmap = wximage.ConvertToBitmap()
       wx.StaticBitmap(self,-1,bitmap, (0, 0))
@@ -38,13 +40,15 @@ class X11Frame(wx.Frame):
 
 
 class UIThread(threading.Thread):
-  def __init__(self):
+  def __init__(self, width, height):
+    self._swidth = width
+    self._sheight = height
     self._x11 = None
     threading.Thread.__init__(self)
 
   def run(self):
     self._app = wx.PySimpleApp()
-    self._x11 = X11Frame()
+    self._x11 = X11Frame(self._swidth, self._sheight)
     self._x11.Show()
     self._app.MainLoop()
 
@@ -58,20 +62,28 @@ class UIThread(threading.Thread):
 
 
 class X11Driver:
+  # Emulate Samsung SPF-87H
+  swidth  = 800
+  sheight = 480
+
+  # Emulate Samsung SPF-107H
+  #swidth  = 1024
+  #sheight = 600
+
   def __init__(self):
-    self._thread = UIThread()
+    self._thread = UIThread(X11Driver.swidth, X11Driver.sheight)
     self._thread.start()
 
   def getInfo(self):
     return {
       'name':    'X11 Driver (wxWidgets)',
-      'width':   320,
-      'height':  240,
+      'width':   X11Driver.swidth,
+      'height':  X11Driver.sheight,
     }
 
   def showFrame(self, frame):
-    if frame.size != (320, 240):
-      raise Exception('X11 driver currently only supports 320x240')
+    if frame.size != (X11Driver.swidth, X11Driver.sheight):
+      raise Exception('X11 driver currently only supports one resolution')
     self._thread.showFrame(frame)
 
   def devicePresent(self):
