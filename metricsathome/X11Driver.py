@@ -1,7 +1,7 @@
 import wx
 import sys
 import Image
-
+import threading
 
 class X11Frame(wx.Frame):
   def __init__(self):
@@ -12,26 +12,55 @@ class X11Frame(wx.Frame):
     self._curframe = None
     self._timer = wx.Timer(self)
     self.Bind(wx.EVT_TIMER, self.updFrame)
-    self._timer.Start(100.0)
+    self._timer.Start(1000.0)
+    self._framelock = threading.Lock()
 
   def updFrame(self, evt):
+    self._framelock.acquire()
     if self._curframe != None:
-      wx.StaticBitmap(self,-1,self._curframe.ConvertToBitmap(), (0, 0))
+      wximage = wx.EmptyImage(320, 240)
+      wximage.SetData(self._curframe.convert('RGB').tostring())
+      bitmap = wximage.ConvertToBitmap()
+      wx.StaticBitmap(self,-1,bitmap, (0, 0))
+    self._framelock.release()
+
+  def showFrame(self, wximage):
+    self._framelock.acquire()
+    self._curframe = wximage
+    self._framelock.release()
 
   def _callback(self,evt,a,f):
     # Closes the window upon any keypress
     self._timer.Stop()
-    self.Hide()
+    self.Destroy()
 
 
 
 
-
-class X11Driver(wx.Frame):
+class UIThread(threading.Thread):
   def __init__(self):
+    self._x11 = None
+    threading.Thread.__init__(self)
+
+  def run(self):
     self._app = wx.PySimpleApp()
     self._x11 = X11Frame()
     self._x11.Show()
+    self._app.MainLoop()
+
+  def showFrame(self, wximage):
+    if self._x11 != None:
+      self._x11.showFrame(wximage)
+
+
+
+
+
+
+class X11Driver:
+  def __init__(self):
+    self._thread = UIThread()
+    self._thread.start()
 
   def getInfo(self):
     return {
@@ -43,16 +72,11 @@ class X11Driver(wx.Frame):
   def showFrame(self, frame):
     if frame.size != (320, 240):
       raise Exception('X11 driver currently only supports 320x240')
-    wximage = wx.EmptyImage(320, 240)
-    wximage.SetData(frame.convert('RGB').tostring())
-    self._x11._curframe = wximage
-
-  def process(self):
-    self._app.Yield()
+    self._thread.showFrame(frame)
 
   def devicePresent(self):
     try:
-      return self._x11.IsShown()
+      return self._thread.isAlive()
     except wx.PyDeadObjectError:
       return False
 

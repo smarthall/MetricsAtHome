@@ -15,7 +15,6 @@ def run():
   disinfo = display.getInfo()
   
   while display.devicePresent():
-    display.process()
     frame = s.getImage(disinfo['width'], disinfo['height'])
     time.sleep(0.01)
     if not frame == None:
