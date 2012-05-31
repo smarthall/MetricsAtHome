@@ -11,7 +11,7 @@ import metricsathome.X11Driver
 
 class ScreenController:
   def __init__(self):
-    self._num = 0
+    self._num = -1
 
   def go(self):
     dev = self.getDevice()
