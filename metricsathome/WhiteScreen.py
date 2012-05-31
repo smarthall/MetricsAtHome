@@ -9,7 +9,6 @@ class WhiteScreen:
     return {
       'duration':     5,
       'name':         'White Screen',
-      'framesleep':   1000,
     }
 
   def getImage(self, width, height):
