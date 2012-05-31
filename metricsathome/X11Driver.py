@@ -7,18 +7,15 @@ class X11Frame(wx.Frame):
   def __init__(self):
     wx.Frame.__init__(self, None, wx.ID_ANY,
     "Metrics At Home X11", size=(320,240))
-    
+    self._newFrame = False
     wx.EVT_CHAR(self,self._callback)
     self._curframe = None
-    #self._timer = wx.Timer(self)
-    #self.Bind(wx.EVT_TIMER, self.updFrame)
-    #self._timer.Start(1000.0)
     self._framelock = threading.Lock()
     self.Bind(wx.EVT_IDLE, self.updFrame)
 
   def updFrame(self, evt):
     self._framelock.acquire()
-    if self._curframe != None:
+    if self._curframe != None and self._newFrame:
       wximage = wx.EmptyImage(320, 240)
       wximage.SetData(self._curframe.convert('RGB').tostring())
       bitmap = wximage.ConvertToBitmap()
@@ -29,6 +26,7 @@ class X11Frame(wx.Frame):
   def showFrame(self, wximage):
     self._framelock.acquire()
     self._curframe = wximage
+    self._newFrame = True
     self._framelock.release()
 
   def _callback(self,evt,a,f):
