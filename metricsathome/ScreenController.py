@@ -11,29 +11,28 @@ import metricsathome.X11Driver
 
 class ScreenController:
   def __init__(self):
-    self._num = -1
+    self._scrnum = -1
+    self._dev = self.getDevice()
+    self._screens = self.getScreens()
 
   def go(self):
-    dev = self.getDevice()
-    screens = self.getScreens()
-
-    while dev.devicePresent():
-      cur = self.getNextScreen(screens)
+    while self._dev.devicePresent():
+      cur = self.getNextScreen()
       si = cur.getInfo()
-      self.showScreen(cur, dev)
+      self.showScreen(cur)
 
-  def showScreen(self, screen, dev):
-    di = dev.getInfo()
+  def showScreen(self, screen):
+    di = self._dev.getInfo()
     si = screen.getInfo()
     quitntime = int(time.time() + si['duration'])
-    while (quitntime > time.time()) and (dev.devicePresent()):
+    while (quitntime > time.time()) and (self._dev.devicePresent()):
       frame = screen.getImage(di['width'], di['height'])
       if not frame == None:
-        dev.showFrame(frame)
+        self._dev.showFrame(frame)
 
-  def getNextScreen(self, screens):
-    self._num = (self._num + 1) % len(screens)
-    return screens[self._num]()
+  def getNextScreen(self):
+    self._scrnum = (self._scrnum + 1) % len(self._screens)
+    return self._screens[self._scrnum]()
 
   def getDevice(self):
     return metricsathome.X11Driver.X11Driver()
