@@ -10,10 +10,11 @@ class X11Frame(wx.Frame):
     
     wx.EVT_CHAR(self,self._callback)
     self._curframe = None
-    self._timer = wx.Timer(self)
-    self.Bind(wx.EVT_TIMER, self.updFrame)
-    self._timer.Start(1000.0)
+    #self._timer = wx.Timer(self)
+    #self.Bind(wx.EVT_TIMER, self.updFrame)
+    #self._timer.Start(1000.0)
     self._framelock = threading.Lock()
+    self.Bind(wx.EVT_IDLE, self.updFrame)
 
   def updFrame(self, evt):
     self._framelock.acquire()
@@ -23,6 +24,7 @@ class X11Frame(wx.Frame):
       bitmap = wximage.ConvertToBitmap()
       wx.StaticBitmap(self,-1,bitmap, (0, 0))
     self._framelock.release()
+    evt.RequestMore()
 
   def showFrame(self, wximage):
     self._framelock.acquire()
