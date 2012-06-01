@@ -1,4 +1,3 @@
-
 import Image, ImageFont, ImageDraw
 
 class HelloWorldScreen:
