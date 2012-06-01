@@ -8,7 +8,7 @@ class HelloWorldScreen:
     self._ydir = 4
     self._text = "Hello world!"
     self._textcolor = (0, 0, 0)
-    self._font =  ImageFont.truetype('font/DejaVuSans.ttf', 24)
+    self._font =  ImageFont.truetype('font/DejaVuSans.ttf', 96)
     (self._textw, self._texth) = self._font.getsize(self._text)
 
   def getInfo(self):
