@@ -1,13 +1,13 @@
 import time, sys
 
 # Screens
-import metricsathome.WhiteScreen
-import metricsathome.BlackScreen
-import metricsathome.HelloWorldScreen
+import metricsathome.Screens.WhiteScreen
+import metricsathome.Screens.BlackScreen
+import metricsathome.Screens.HelloWorldScreen
 
 # Display Drivers
-import metricsathome.SamsungFrameDriver
-import metricsathome.X11Driver
+import metricsathome.Drivers.SamsungFrameDriver
+import metricsathome.Drivers.X11Driver
 
 class ScreenController:
   def __init__(self):
@@ -35,14 +35,14 @@ class ScreenController:
     return self._screens[self._scrnum]()
 
   def getDevice(self):
-    #return metricsathome.X11Driver.X11Driver()
-    return metricsathome.SamsungFrameDriver.SamsungFrameDriver()
+    #return metricsathome.Drivers.X11Driver.X11Driver()
+    return metricsathome.Drivers.SamsungFrameDriver.SamsungFrameDriver()
 
   def getScreens(self):
     return [
-      metricsathome.HelloWorldScreen.HelloWorldScreen,
-      metricsathome.BlackScreen.BlackScreen,
-      metricsathome.WhiteScreen.WhiteScreen,
+      metricsathome.Screens.HelloWorldScreen.HelloWorldScreen,
+      metricsathome.Screens.BlackScreen.BlackScreen,
+      metricsathome.Screens.WhiteScreen.WhiteScreen,
       ]
 
 
