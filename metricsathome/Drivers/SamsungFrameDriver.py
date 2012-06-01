@@ -4,6 +4,10 @@ from usb.util import *
 import Image
 import StringIO
 
+class FrameNotFoundException(Exception):
+  def __init__(self):
+    Exception.__init__(self, "Frame not found.")
+
 class SamsungFrameDriver:
   vendId = 0x04e8
   prodMassStore = 0x2035
@@ -25,7 +29,7 @@ class SamsungFrameDriver:
       dev.set_configuration()
       result = dev.ctrl_transfer(CTRL_TYPE_VENDOR | CTRL_IN | CTRL_RECIPIENT_DEVICE, 0x04, 0x00, 0x00, 1)
     else:
-      raise Exception("Device not found")
+      raise FrameNotFoundException()
 
     self._dev = dev
 

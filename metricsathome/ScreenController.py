@@ -35,8 +35,10 @@ class ScreenController:
     return self._screens[self._scrnum]()
 
   def getDevice(self):
-    #return Drivers.X11Driver.X11Driver()
-    return Drivers.SamsungFrameDriver.SamsungFrameDriver()
+    try:
+      return Drivers.SamsungFrameDriver.SamsungFrameDriver()
+    except Drivers.SamsungFrameDriver.FrameNotFoundException:
+      return Drivers.X11Driver.X11Driver()
 
   def getScreens(self):
     return [
