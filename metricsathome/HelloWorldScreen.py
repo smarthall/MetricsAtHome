@@ -1,27 +1,44 @@
 
 import Image, ImageFont, ImageDraw
-import time
 
 class HelloWorldScreen:
   def __init__(self):
-    self._xpos = 999
+    self._xpos = 0
+    self._ypos = 0
+    self._xdir = 4
+    self._ydir = 4
+    self._text = "Hello world!"
+    self._textcolor = (0, 0, 0)
+    self._font =  ImageFont.truetype('font/DejaVuSans.ttf', 24)
+    (self._textw, self._texth) = self._font.getsize(self._text)
 
   def getInfo(self):
     return {
-      'duration':     5,
+      'duration':     30,
       'name':         'Hello World Screen',
     }
 
   def getImage(self, width, height):
-    xpos = int(time.time() % 10) * 10
-    if self._xpos != xpos:
-      img = Image.new('RGB', (width, height), (255, 255, 255))
-      black = (0, 0, 0)
-      imgDraw = ImageDraw.Draw(img)
-      fntNorm =  ImageFont.truetype('font/DejaVuSans.ttf', 24)
-      imgDraw.text((xpos, 20), "Hello World", font=fntNorm, fill=black)
-      self._xpos = xpos
-      return img
-    else:
-      return None
+    img = Image.new('RGB', (width, height), (255, 255, 255))
+    imgDraw = ImageDraw.Draw(img)
+    
+
+    self._xpos = (self._xpos + self._xdir)
+    if self._xpos >= (width - self._textw):
+      self._xpos = (width - self._textw) - 1
+      self._xdir *= -1
+    elif self._xpos <= 0:
+      self._xpos = 0
+      self._xdir *= -1
+
+    self._ypos = (self._ypos + self._ydir)# % (height - texth)
+    if self._ypos >= (height - self._texth):
+      self._ypos = (height - self._texth) - 1
+      self._ydir *= -1
+    elif self._ypos <= 0:
+      self._ypos = 0
+      self._ydir *= -1
+    
+    imgDraw.text((self._xpos, self._ypos), self._text, font=self._font, fill=self._textcolor)
+    return img
 
