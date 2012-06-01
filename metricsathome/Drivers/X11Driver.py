@@ -2,6 +2,7 @@ import wx
 import sys
 import Image
 import threading
+import time
 
 class X11Frame(wx.Frame):
   def __init__(self, width, height):
@@ -29,6 +30,7 @@ class X11Frame(wx.Frame):
     self._framelock.acquire()
     self._curframe = wximage
     self._newFrame = True
+    time.sleep(0.05)
     self._framelock.release()
 
   def _callback(self,evt,a,f):
