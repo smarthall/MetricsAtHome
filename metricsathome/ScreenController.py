@@ -6,7 +6,7 @@ import metricsathome.BlackScreen
 import metricsathome.HelloWorldScreen
 
 # Display Drivers
-#import metricsathome.SamsungUSBDriver
+import metricsathome.SamsungFrameDriver
 import metricsathome.X11Driver
 
 class ScreenController:
@@ -35,7 +35,8 @@ class ScreenController:
     return self._screens[self._scrnum]()
 
   def getDevice(self):
-    return metricsathome.X11Driver.X11Driver()
+    #return metricsathome.X11Driver.X11Driver()
+    return metricsathome.SamsungFrameDriver.SamsungFrameDriver()
 
   def getScreens(self):
     return [
