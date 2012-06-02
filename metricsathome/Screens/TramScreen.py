@@ -32,21 +32,26 @@ class TramScreen:
     self._boxtram  = boxnext[0]['VehicleNo']
 
     #Get the schedules for those trams
-    (citytdetails, citytstops) = api.GetNextPredictedArrivalTimeAtStopsForTramNo(self._citytram)
-    (boxtdetails, boxtstops) = api.GetNextPredictedArrivalTimeAtStopsForTramNo(self._boxtram)
+    try:
+      (citytdetails, citytstops) = api.GetNextPredictedArrivalTimeAtStopsForTramNo(self._citytram)
+      (boxtdetails, boxtstops) = api.GetNextPredictedArrivalTimeAtStopsForTramNo(self._boxtram)
 
-    # Process into dicts
-    citypred = {}
-    boxpred = {}
-    for p in citytstops:
-      citypred[int(p['StopNo'])] = p['PredictedArrivalDateTime']
-    for p in boxtstops:
-      boxpred[int(p['StopNo'])] = p['PredictedArrivalDateTime']
-    
-    # Get the interesting data
-    self._arrkate = citypred.get(self._katestop)
-    self._arrdan  = citypred.get(self._danstop)
-    self._arrbox  = boxpred.get(self._boxstop)
+      # Process into dicts
+      citypred = {}
+      boxpred = {}
+      for p in citytstops:
+        citypred[int(p['StopNo'])] = p['PredictedArrivalDateTime']
+      for p in boxtstops:
+        boxpred[int(p['StopNo'])] = p['PredictedArrivalDateTime']
+
+      # Get the interesting data
+      self._arrkate = citypred.get(self._katestop)
+      self._arrdan  = citypred.get(self._danstop)
+      self._arrbox  = boxpred.get(self._boxstop)
+    except ValueError:
+      self._arrkate = None
+      self._arrdan  = None
+      self._arrbox  = None
 
     #TODO: Get all next three trams
 
