@@ -4,6 +4,7 @@ import time, sys
 import Screens.WhiteScreen
 import Screens.BlackScreen
 import Screens.HelloWorldScreen
+import Screens.PicScreen
 
 # Display Drivers
 import Drivers.SamsungFrameDriver
@@ -43,6 +44,7 @@ class ScreenController:
   def getScreens(self):
     return [
       Screens.HelloWorldScreen.HelloWorldScreen,
+      Screens.PicScreen.PicScreen,
       Screens.BlackScreen.BlackScreen,
       Screens.WhiteScreen.WhiteScreen,
       ]
