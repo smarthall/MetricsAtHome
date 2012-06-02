@@ -30,7 +30,6 @@ class X11Frame(wx.Frame):
     self._framelock.acquire()
     self._curframe = wximage
     self._newFrame = True
-    time.sleep(0.05)
     self._framelock.release()
 
   def _callback(self,evt,a,f):
@@ -65,12 +64,12 @@ class UIThread(threading.Thread):
 
 class X11Driver:
   # Emulate Samsung SPF-87H
-  swidth  = 800
-  sheight = 480
+  #swidth  = 800
+  #sheight = 480
 
   # Emulate Samsung SPF-107H
-  #swidth  = 1024
-  #sheight = 600
+  swidth  = 1024
+  sheight = 600
 
   def __init__(self):
     self._thread = UIThread(X11Driver.swidth, X11Driver.sheight)
