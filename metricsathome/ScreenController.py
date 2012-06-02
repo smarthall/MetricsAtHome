@@ -44,10 +44,10 @@ class ScreenController:
 
   def getScreens(self):
     return [
-      Screens.HelloWorldScreen.HelloWorldScreen,
+      Screens.BlackScreen.BlackScreen,
       Screens.TramScreen.TramScreen,
       Screens.PicScreen.PicScreen,
-      Screens.BlackScreen.BlackScreen,
+      Screens.HelloWorldScreen.HelloWorldScreen,
       Screens.WhiteScreen.WhiteScreen,
       ]
 
