@@ -3,6 +3,7 @@
 # WebService.py - methods for talking to the SOAP service
 #
 # Copyright (C) 2009-2010, Danielle Madeley <danielle@madeley.id.au>
+# Modifications Copyright (C) 2012-2012, Daniel Hall <daniel@danielhall.me>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
