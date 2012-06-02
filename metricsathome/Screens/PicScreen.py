@@ -12,8 +12,8 @@ class PicScreen:
 
   def getImage(self, width, height):
     if self._frameno == 0:
-        return Image.open('img/sample.jpg')
         self._frameno += 1
+        return Image.open('img/sample.jpg')
     else:
         return None
 

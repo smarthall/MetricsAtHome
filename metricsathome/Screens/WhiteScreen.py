@@ -13,8 +13,8 @@ class WhiteScreen:
 
   def getImage(self, width, height):
     if self._frameno == 0:
-        return Image.new('RGB', (width, height), (255, 255, 255))
         self._frameno += 1
+        return Image.new('RGB', (width, height), (255, 255, 255))
     else:
         return None
 
