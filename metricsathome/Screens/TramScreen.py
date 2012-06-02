@@ -31,14 +31,6 @@ class TramScreen:
     self._boxarr   = boxnext[0]['PredictedArrivalDateTime']
     self._boxtram  = boxnext[0]['VehicleNo']
 
-    # Get the deltas
-    boxdelta = self._boxarr - datetime.datetime.now()
-    citydelta = self._cityarr - datetime.datetime.now()
-
-    # Then in seconds/minutes
-    self._citywaitm, self._citywaits = divmod(citydelta.total_seconds(), 60)
-    self._boxwaitm,  self._boxwaits  = divmod(boxdelta.total_seconds(),  60)
-
     #Get the schedules for those trams
     (citytdetails, citytstops) = api.GetNextPredictedArrivalTimeAtStopsForTramNo(self._citytram)
     (boxtdetails, boxtstops) = api.GetNextPredictedArrivalTimeAtStopsForTramNo(self._boxtram)
@@ -71,10 +63,18 @@ class TramScreen:
         im = Image.new('RGB', (width, height), (255, 255, 255))
         draw = ImageDraw.Draw(im)
 
+        # Get the deltas
+        boxdelta = self._boxarr - datetime.datetime.now()
+        citydelta = self._cityarr - datetime.datetime.now()
+
+        # Then in seconds/minutes
+        (citywaitm, citywaits) = divmod(citydelta.total_seconds(), 60)
+        (boxwaitm,  boxwaits)  = divmod(boxdelta.total_seconds(),  60)
+
         # Tram times
         draw.text((0, 0), "Tram Times", font=self._font, fill=self._textcolor)
-        draw.text((0, 20), "To City: %s minutes" % int(self._citywaitm), font=self._font, fill=self._textcolor)
-        draw.text((0, 300), "To Box Hill: %s minutes" % int(self._boxwaitm), font=self._font, fill=self._textcolor)
+        draw.text((0, 20), "To City: %s minutes" % int(citywaitm), font=self._font, fill=self._textcolor)
+        draw.text((0, 300), "To Box Hill: %s minutes" % int(boxwaitm), font=self._font, fill=self._textcolor)
 
         # Stop arrivals
         if self._arrkate != None:
