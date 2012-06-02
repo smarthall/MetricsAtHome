@@ -63,9 +63,7 @@ class YarraTrams:
         self.client = Client(url, doctor=doctor)
 
         if self.guid is None:
-            print "Requesting guid...",
             self.guid = self.client.service.GetNewClientGuid()
-            print self.guid
 
         headers = self.client.factory.create('PidsClientHeader')
         headers.ClientGuid = self.guid
@@ -91,7 +89,6 @@ class YarraTrams:
                 raise e
 
     def GetStopInformation(self, stopNo):
-        print "Requesting information for stop", stopNo
         reply = self.client.service.GetStopInformation(stopNo)
         try:
             stopinfo = reply.GetStopInformationResult.diffgram[0].DocumentElement[0].StopInformation[0]
@@ -126,7 +123,6 @@ class YarraTrams:
                 raise e
 
     def GetNextPredictedRoutesCollection(self, stopNo, routeNo=0, lowFloor=False):
-        print "Requesting routes for stop", stopNo
         reply = self.client.service.GetNextPredictedRoutesCollection(stopNo, \
             routeNo, lowFloor)
         try:
@@ -178,7 +174,6 @@ class YarraTrams:
         print reply
 
     def GetNextPredictedArrivalTimeAtStopsForTramNo(self, tramNo):
-        print "Requesting info for tram", tramNo
         reply = self.client.service.GetNextPredictedArrivalTimeAtStopsForTramNo(tramNo)
 
         try:

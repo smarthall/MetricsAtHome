@@ -1,10 +1,10 @@
 import Image, ImageFont, ImageDraw
-import datetime
+import datetime, time
 import Data.YarraTrams
 
 class TramScreen:
   def __init__(self):
-    self._frameno = 0
+    self._nextupd = time.time()
 
     # Data
     self._tramline     = 109
@@ -39,7 +39,23 @@ class TramScreen:
     self._citywaitm, self._citywaits = divmod(citydelta.total_seconds(), 60)
     self._boxwaitm,  self._boxwaits  = divmod(boxdelta.total_seconds(),  60)
 
-    #TODO: Get the schedules for those trams
+    #Get the schedules for those trams
+    (citytdetails, citytstops) = api.GetNextPredictedArrivalTimeAtStopsForTramNo(self._citytram)
+    (boxtdetails, boxtstops) = api.GetNextPredictedArrivalTimeAtStopsForTramNo(self._boxtram)
+
+    # Process into dicts
+    citypred = {}
+    boxpred = {}
+    for p in citytstops:
+      citypred[int(p['StopNo'])] = p['PredictedArrivalDateTime']
+    for p in boxtstops:
+      boxpred[int(p['StopNo'])] = p['PredictedArrivalDateTime']
+    
+    # Get the interesting data
+    self._arrkate = citypred.get(self._katestop)
+    self._arrdan  = citypred.get(self._danstop)
+    self._arrbox  = boxpred.get(self._boxstop)
+
     #TODO: Get all next three trams
 
   def getInfo(self):
@@ -49,15 +65,27 @@ class TramScreen:
     }
 
   def getImage(self, width, height):
-    if self._frameno == 0:
-        self._frameno += 1
+    if self._nextupd < time.time():
+        self._nextupd = time.time() + 1
 
         im = Image.new('RGB', (width, height), (255, 255, 255))
         draw = ImageDraw.Draw(im)
 
+        # Tram times
         draw.text((0, 0), "Tram Times", font=self._font, fill=self._textcolor)
-        draw.text((0, 80), "To City: %s minutes" % int(self._citywaitm), font=self._font, fill=self._textcolor)
-        draw.text((0, 160), "To Box Hill: %s minutes" % int(self._boxwaitm), font=self._font, fill=self._textcolor)
+        draw.text((0, 20), "To City: %s minutes" % int(self._citywaitm), font=self._font, fill=self._textcolor)
+        draw.text((0, 300), "To Box Hill: %s minutes" % int(self._boxwaitm), font=self._font, fill=self._textcolor)
+
+        # Stop arrivals
+        if self._arrkate != None:
+          draw.text((0, 40), "Arrives Kate's work: %s" % self._arrkate.strftime('%I:%M%p'), font=self._font, fill=self._textcolor)
+        if self._arrdan != None:
+          draw.text((0, 80), "Arrives Dan's work: %s" % self._arrdan.strftime('%I:%M%p'), font=self._font, fill=self._textcolor)
+        if self._arrbox != None:
+          draw.text((0, 340), "Arrives Box Hill: %s" % self._arrbox.strftime('%I:%M%p'), font=self._font, fill=self._textcolor)
+
+	# Updated time
+        draw.text((0, 500), "Updated: %s" % datetime.datetime.now().strftime('%I:%M:%S%p'), font=self._font, fill=self._textcolor)
 
         return im
     else:
