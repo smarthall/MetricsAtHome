@@ -9,7 +9,6 @@ import Screens.TramScreen
 
 # Display Drivers
 import Drivers.SamsungFrameDriver
-import Drivers.X11Driver
 
 class ScreenController:
   def __init__(self):
@@ -40,6 +39,7 @@ class ScreenController:
     try:
       return Drivers.SamsungFrameDriver.SamsungFrameDriver()
     except Drivers.SamsungFrameDriver.FrameNotFoundException:
+      import Drivers.X11Driver
       return Drivers.X11Driver.X11Driver()
 
   def getScreens(self):
