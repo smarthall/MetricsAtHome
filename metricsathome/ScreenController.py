@@ -46,9 +46,9 @@ class ScreenController:
     return [
       Screens.BlackScreen.BlackScreen,
       Screens.TramScreen.TramScreen,
-      Screens.PicScreen.PicScreen,
-      Screens.HelloWorldScreen.HelloWorldScreen,
-      Screens.WhiteScreen.WhiteScreen,
+      #Screens.PicScreen.PicScreen,
+      #Screens.HelloWorldScreen.HelloWorldScreen,
+      #Screens.WhiteScreen.WhiteScreen,
       ]
 
 
