@@ -24,7 +24,6 @@ class X11Frame(wx.Frame):
       bitmap = wximage.ConvertToBitmap()
       wx.StaticBitmap(self,-1,bitmap, (0, 0))
     self._framelock.release()
-    evt.RequestMore()
 
   def showFrame(self, wximage):
     self._framelock.acquire()
@@ -56,7 +55,7 @@ class UIThread(threading.Thread):
   def showFrame(self, wximage):
     if self._x11 != None:
       self._x11.showFrame(wximage)
-
+      self._app.WakeUpIdle()
 
 
 
