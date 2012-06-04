@@ -3,3 +3,6 @@ MetricsAtHome
 This program allows you to use Samsung Photo Displays (other drivers may be
 included later) to display metrics and information from various places.
 
+This software depends on:
+ - SUDS
+
