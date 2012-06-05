@@ -16,7 +16,7 @@ class ScreenController:
     self._scrnum = -1
     self._dev = self.getDevice()
     self._screens = self.getScreens()
-    logging.basicConfig(level=logging.ERROR)
+    logging.basicConfig(level=logging.INFO)
 
   def go(self):
     while self._dev.devicePresent():
