@@ -1,4 +1,5 @@
 import time, sys
+import logging
 
 # Screens
 import Screens.WhiteScreen
@@ -15,6 +16,7 @@ class ScreenController:
     self._scrnum = -1
     self._dev = self.getDevice()
     self._screens = self.getScreens()
+    logging.basicConfig(level=logging.ERROR)
 
   def go(self):
     while self._dev.devicePresent():
