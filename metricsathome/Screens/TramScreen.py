@@ -39,10 +39,17 @@ class TramScreen:
       # Process into dicts
       citypred = {}
       boxpred = {}
-      for p in citytstops:
-        citypred[int(p['StopNo'])] = p['PredictedArrivalDateTime']
-      for p in boxtstops:
-        boxpred[int(p['StopNo'])] = p['PredictedArrivalDateTime']
+      try:
+        for p in citytstops:
+          citypred[int(p['StopNo'])] = p['PredictedArrivalDateTime']
+      except KeyError:
+        citypred = {}
+
+      try:
+        for p in boxtstops:
+          boxpred[int(p['StopNo'])] = p['PredictedArrivalDateTime']
+      except KeyError:
+        boxpred = {}
 
       # Get the interesting data
       self._arrkate = citypred.get(self._katestop)
