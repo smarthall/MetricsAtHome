@@ -2,11 +2,11 @@ import time, sys
 import logging
 
 # Screens
-import Screens.WhiteScreen
-import Screens.BlackScreen
-import Screens.HelloWorldScreen
-import Screens.PicScreen
-import Screens.TramScreen
+import WhiteScreen
+import BlackScreen
+import HelloWorldScreen
+import PicScreen
+import TramScreen
 
 # Display Drivers
 from Drivers.SamsungFrameDriver import SamsungFrameDriver, FrameNotFoundException
@@ -46,11 +46,11 @@ class ScreenController:
 
   def getScreens(self):
     return [
-      Screens.BlackScreen.BlackScreen,
-      Screens.TramScreen.TramScreen,
-      #Screens.PicScreen.PicScreen,
-      #Screens.HelloWorldScreen.HelloWorldScreen,
-      #Screens.WhiteScreen.WhiteScreen,
+      BlackScreen.BlackScreen,
+      TramScreen.TramScreen,
+      #PicScreen.PicScreen,
+      #HelloWorldScreen.HelloWorldScreen,
+      #WhiteScreen.WhiteScreen,
       ]
 
 
