@@ -1,5 +1,6 @@
 import time
-import json
+import pickle
+import datetime
 
 _dict = {}
 filename = None
@@ -40,15 +41,12 @@ def gc():
 
 def todisk():
   gc()
-  output = json.dumps(_dict)
-  with open(filename, 'w') as f:
-    f.write(output)
+  pickle.dump(_dict, open(filename, 'w'))
 
 def fromdisk(strfile):
   globals()['filename'] = strfile
   try:
-    with open(filename, 'r') as f:
-      _dict = json.loads(f.read())
+    globals()['_dict'] = pickle.load(open(filename, 'r'))
   except IOError:
     pass
 

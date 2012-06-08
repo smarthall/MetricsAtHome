@@ -1,12 +1,16 @@
 import time, sys
 import logging
 
+# utils
+import Cache
+
 # Screens
 import WhiteScreen
 import BlackScreen
 import HelloWorldScreen
 import PicScreen
 import TramScreen
+import WeatherScreen
 
 # Display Drivers
 from Drivers.SamsungFrameDriver import SamsungFrameDriver, FrameNotFoundException
@@ -16,7 +20,10 @@ class ScreenController:
     self._scrnum = -1
     self._dev = self.getDevice()
     self._screens = self.getScreens()
+
+    # Application setup
     logging.basicConfig(level=logging.INFO)
+    Cache.fromdisk('/tmp/metricsathome-cache')
 
   def go(self):
     while self._dev.devicePresent():
@@ -47,6 +54,7 @@ class ScreenController:
   def getScreens(self):
     return [
       BlackScreen.BlackScreen,
+      WeatherScreen.WeatherScreen,
       TramScreen.TramScreen,
       #PicScreen.PicScreen,
       #HelloWorldScreen.HelloWorldScreen,
