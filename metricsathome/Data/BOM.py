@@ -17,6 +17,7 @@ class BOM:
     self._radarbaseurl = 'ftp://ftp2.bom.gov.au/anon/gen/radar/IDR'
     self._ftphost = 'ftp2.bom.gov.au'
     self._transparentcypath = '/anon/gen/radar_transparencies/'
+    self._radarpath = '/anon/gen/radar/'
     self._radarimg = None
 
   def getData(self, aac):
@@ -53,6 +54,7 @@ class BOM:
     return Image.open(StringIO(self._radar))
 
   def getRadarLoop(self, code):
+    cachekey = 'metricsathome.BOM.BOM-radarloop(' + code + ')'
     loopback = self.buildLoopBack(code)
 
   def buildLoopBack(self, code, layers=deflayers):
