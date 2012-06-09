@@ -12,6 +12,7 @@ class WeatherScreen:
     self._maxcolor  = (255, 0,   0)
     self._mincolor  = (50,   50,   255)
     self._bomarea = 'VIC_PT042'
+    self._bomradarcode = '023'
 
     self._wicon = []
     for i in range(1, 17):
@@ -24,6 +25,16 @@ class WeatherScreen:
       bomapi = Data.BOM.BOM()
       self._wdata = bomapi.getData(self._bomarea)
       Cache.write('BOM-data', self._wdata, 3600)
+
+    self._radar = Cache.read('BOM-radar')
+    if self._radar is None:
+      print "Requesting Radar"
+      bomapi = Data.BOM.BOM()
+      self._radar = bomapi.getRadar(self._bomradarcode)
+      self._radar.convert('RGB')
+      Cache.write('BOM-radar', (self._radar.tostring(), (self._radar.size)), 3600)
+    else:
+      self._radar = Image.fromstring('RGB', self._radar[1], self._radar[0])
 
   def getInfo(self):
     return {

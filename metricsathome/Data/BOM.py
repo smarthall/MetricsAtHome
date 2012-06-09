@@ -9,12 +9,9 @@ class BOM:
   def __init__(self):
     self._xmlurl = 'ftp://ftp2.bom.gov.au/anon/gen/fwo/IDV10753.xml'
     self._radarbaseurl = 'ftp://ftp2.bom.gov.au/anon/gen/radar/IDR'
-    self.refreshData()
-
-  def refreshData(self):
-    self._wdom = parse(urllib2.urlopen(self._xmlurl))
 
   def getData(self, aac):
+    self._wdom = parse(urllib2.urlopen(self._xmlurl))
     areas = self._wdom.getElementsByTagName('area')
     area = filter(lambda a: a.attributes['aac'].value == aac, areas)[0]
     fcasts = filter(lambda a: a.attributes != None, area.childNodes)
