@@ -2,7 +2,7 @@ import time, sys
 import logging
 
 # utils
-import Cache
+import Data.Cache as Cache
 
 # Screens
 import WhiteScreen

@@ -1,7 +1,6 @@
 import Image, ImageDraw, ImageFont
 import StringIO
 import Data.BOM
-import Cache
 
 class WeatherScreen:
   def __init__(self):
@@ -21,23 +20,10 @@ class WeatherScreen:
       im = im.resize((89, 83), Image.BICUBIC)
       self._wicon.append(im)
 
-    self._wdata = Cache.read('BOM-data');
-    if self._wdata is None:
-      bomapi = Data.BOM.BOM()
-      self._wdata = bomapi.getData(self._bomarea)
-      Cache.write('BOM-data', self._wdata, 3600)
+    bomapi = Data.BOM.BOM()
+    self._wdata = bomapi.getData(self._bomarea)
 
-    self._radar = Cache.read('BOM-radar')
-    if self._radar is None:
-      bomapi = Data.BOM.BOM()
-      self._radar = bomapi.getRadar(self._bomradarcode).convert('RGBA')
-      imgout = StringIO.StringIO()
-      self._radar.save(imgout, format='PNG')
-      Cache.write('BOM-radar', imgout.getvalue(), 300)
-      imgout.close()
-    else:
-      imgstream = StringIO.StringIO(self._radar)
-      self._radar = Image.open(imgstream).convert('RGBA')
+    self._radar = bomapi.getRadar(self._bomradarcode).convert('RGBA')
 
   def getInfo(self):
     return {
