@@ -1,6 +1,6 @@
 import Image, ImageDraw, ImageFont
 import StringIO
-import Data.BOM
+from Data.BOM import BOM
 
 class WeatherScreen:
   def __init__(self):
@@ -20,9 +20,8 @@ class WeatherScreen:
       im = im.resize((89, 83), Image.BICUBIC)
       self._wicon.append(im)
 
-    bomapi = Data.BOM.BOM()
+    bomapi = BOM()
     self._wdata = bomapi.getData(self._bomarea)
-
     self._radar = bomapi.getRadar(self._bomradarcode).convert('RGBA')
 
   def getInfo(self):
