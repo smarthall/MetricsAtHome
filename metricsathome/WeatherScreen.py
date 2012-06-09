@@ -32,7 +32,7 @@ class WeatherScreen:
       bomapi = Data.BOM.BOM()
       self._radar = bomapi.getRadar(self._bomradarcode).convert('RGBA')
       imgout = StringIO.StringIO()
-      self._radar.save(imgout, format='GIF')
+      self._radar.save(imgout, format='PNG')
       Cache.write('BOM-radar', imgout.getvalue(), 300)
       imgout.close()
     else:
@@ -51,8 +51,8 @@ class WeatherScreen:
 
     # Todays data
     today = self._wdata[0]
-    maxtext = today.get('air_temperature_maximum', '??')
-    mintext = today.get('air_temperature_minimum', '??')
+    maxtext = today.get('air_temperature_maximum', '')
+    mintext = today.get('air_temperature_minimum', '')
     im.paste(self._wicon[int(today['forecast_icon_code'])], (42, 81))
     draw.text((87, 42), today['date'].strftime('%A %d %B %Y'), font=self._mainfont, fill=self._textcolor)
     draw.text((179, 81), maxtext, font=self._tempfont, fill=self._maxcolor)
