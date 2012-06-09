@@ -1,4 +1,5 @@
 import Image, ImageDraw, ImageFont
+import StringIO
 import Data.BOM
 import Cache
 
@@ -28,13 +29,15 @@ class WeatherScreen:
 
     self._radar = Cache.read('BOM-radar')
     if self._radar is None:
-      print "Requesting Radar"
       bomapi = Data.BOM.BOM()
-      self._radar = bomapi.getRadar(self._bomradarcode)
-      self._radar.convert('RGB')
-      Cache.write('BOM-radar', (self._radar.tostring(), (self._radar.size)), 3600)
+      self._radar = bomapi.getRadar(self._bomradarcode).convert('RGBA')
+      imgout = StringIO.StringIO()
+      self._radar.save(imgout, format='GIF')
+      Cache.write('BOM-radar', imgout.getvalue(), 300)
+      imgout.close()
     else:
-      self._radar = Image.fromstring('RGB', self._radar[1], self._radar[0])
+      imgstream = StringIO.StringIO(self._radar)
+      self._radar = Image.open(imgstream).convert('RGBA')
 
   def getInfo(self):
     return {
@@ -43,7 +46,7 @@ class WeatherScreen:
     }
 
   def getImage(self, width, height):
-    im = Image.new('RGB', (width, height), (255, 255, 255))
+    im = Image.new('RGBA', (width, height), (255, 255, 255))
     draw = ImageDraw.Draw(im)
 
     # Todays data
@@ -68,6 +71,9 @@ class WeatherScreen:
       draw.text((xoff + 22, yoff + 8), pred['date'].strftime('%a'), font=self._dayfont, fill=self._textcolor)
       draw.text((xoff + 22, yoff + 113), pred['air_temperature_maximum'], font=self._daytempfont, fill=self._maxcolor)
       draw.text((xoff + 67, yoff + 113), pred['air_temperature_minimum'], font=self._daytempfont, fill=self._mincolor)
+
+    # Put the radar in
+    im.paste(self._radar, (470, 30), self._radar)
 
     return im
 
