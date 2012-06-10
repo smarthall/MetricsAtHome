@@ -23,6 +23,8 @@ class WeatherScreen:
     bomapi = BOM()
     self._wdata = bomapi.getData(self._bomarea)
     self._radar = bomapi.getRadar(self._bomradarcode).convert('RGBA')
+    self._radarloop = bomapi.getRadarLoop(self._bomradarcode)
+    self._rimg = 0
 
   def getInfo(self):
     return {
@@ -58,7 +60,8 @@ class WeatherScreen:
       draw.text((xoff + 67, yoff + 113), pred['air_temperature_minimum'], font=self._daytempfont, fill=self._mincolor)
 
     # Put the radar in
-    im.paste(self._radar, (470, 30), self._radar)
+    self._rimg = (self._rimg + 1) % len(self._radarloop)
+    im.paste(self._radarloop[self._rimg], (470, 30), self._radarloop[self._rimg])
 
     return im
 
