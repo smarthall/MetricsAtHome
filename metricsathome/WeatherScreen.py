@@ -1,9 +1,12 @@
 import Image, ImageDraw, ImageFont
+import time
 import StringIO
 from Data.BOM import BOM
 
 class WeatherScreen:
   def __init__(self):
+    self._nextupd = time.time()
+    self._framespeed = 0.5
     self._dayfont = ImageFont.truetype('font/DejaVuSans.ttf',     22)
     self._mainfont = ImageFont.truetype('font/DejaVuSans.ttf',    24)
     self._daytempfont = ImageFont.truetype('font/DejaVuSans.ttf', 36)
@@ -33,6 +36,10 @@ class WeatherScreen:
     }
 
   def getImage(self, width, height):
+    if self._nextupd >= time.time():
+      return None
+    self._nextupd = time.time() + self._framespeed
+
     im = Image.new('RGBA', (width, height), (255, 255, 255))
     draw = ImageDraw.Draw(im)
 
