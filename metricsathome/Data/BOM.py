@@ -79,7 +79,7 @@ class BOM:
       else:
         imgget = StringIO()
         ftp.retrbinary('RETR ' + f, imgget.write)
-        Cache.write(ftpcachekey, imgget.getvalue(), 604800)
+        Cache.write(ftpcachekey, imgget.getvalue(), 10800)
         imageio = StringIO(imgget.getvalue())
         imgget.close()
       rdrtrans = Image.open(imageio).convert('RGBA')
