@@ -1,3 +1,4 @@
+import time
 import Image
 
 class PicScreen:
@@ -15,5 +16,6 @@ class PicScreen:
         self._frameno += 1
         return Image.open('img/sample.jpg')
     else:
+        time.sleep(1)
         return None
 

@@ -1,4 +1,4 @@
-
+import time
 import Image
 
 class WhiteScreen:
@@ -16,5 +16,6 @@ class WhiteScreen:
         self._frameno += 1
         return Image.new('RGB', (width, height), (255, 255, 255))
     else:
+        time.sleep(1)
         return None
 

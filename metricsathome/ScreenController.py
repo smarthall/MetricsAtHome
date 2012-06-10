@@ -37,8 +37,10 @@ class ScreenController:
     quitntime = int(time.time() + si['duration'])
     while (quitntime > time.time()) and (self._dev.devicePresent()):
       frame = screen.getImage(di['width'], di['height'])
-      if not frame == None:
+      if frame is not None:
         self._dev.showFrame(frame)
+      else:
+        time.sleep(0.001)
 
   def getNextScreen(self):
     self._scrnum = (self._scrnum + 1) % len(self._screens)

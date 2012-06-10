@@ -37,6 +37,7 @@ class WeatherScreen:
 
   def getImage(self, width, height):
     if self._nextupd >= time.time():
+      time.sleep(self._framespeed / 10)
       return None
     self._nextupd = time.time() + self._framespeed
 

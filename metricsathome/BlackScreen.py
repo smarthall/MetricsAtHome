@@ -1,4 +1,4 @@
-
+import time
 import Image
 
 class BlackScreen:
@@ -16,5 +16,6 @@ class BlackScreen:
         self._frameno += 1
         return Image.new('RGB', (width, height), (0, 0, 0))
     else:
+        time.sleep(1)
         return None
 

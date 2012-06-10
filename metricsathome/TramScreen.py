@@ -101,5 +101,6 @@ class TramScreen:
 
         return im
     else:
+        time.sleep(0.1)
         return None
 
