@@ -71,15 +71,15 @@ class BOM:
     files = ftp.nlst('IDR' + code + '.T.*.png')
 
     for f in files:
-      cachekey = BOM.modcachekey + '-ftp://' + self._ftphost + self._radarpath + f
-      imgstr = Cache.read(cachekey)
+      ftpcachekey = BOM.modcachekey + '-ftp://' + self._ftphost + self._radarpath + f
+      imgstr = Cache.read(ftpcachekey)
       imageio = None
       if imgstr is not None:
         imageio = StringIO(imgstr)
       else:
         imgget = StringIO()
         ftp.retrbinary('RETR ' + f, imgget.write)
-        Cache.write(cachekey, imgget.getvalue(), 604800)
+        Cache.write(ftpcachekey, imgget.getvalue(), 604800)
         imageio = StringIO(imgget.getvalue())
         imgget.close()
       rdrtrans = Image.open(imageio).convert('RGBA')
