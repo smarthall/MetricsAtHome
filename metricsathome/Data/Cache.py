@@ -1,5 +1,5 @@
 import time
-import pickle
+import cPickle as pickle
 import datetime
 
 _dict = {}
@@ -41,7 +41,7 @@ def gc():
 
 def todisk():
   gc()
-  pickle.dump(_dict, open(filename, 'w'))
+  pickle.dump(_dict, open(filename, 'w'), pickle.HIGHEST_PROTOCOL)
 
 def fromdisk(strfile):
   globals()['filename'] = strfile
