@@ -10,6 +10,7 @@ import BlackScreen
 import HelloWorldScreen
 import PicScreen
 import TramScreen
+import TramScreenV2
 import WeatherScreen
 
 # Display Drivers
@@ -50,6 +51,7 @@ class ScreenController:
     try:
       return SamsungFrameDriver()
     except FrameNotFoundException:
+      print 'Can\'t find a screen, loading X11Driver'
       import Drivers.X11Driver
       return Drivers.X11Driver.X11Driver()
 
@@ -57,7 +59,8 @@ class ScreenController:
     return [
       BlackScreen.BlackScreen,
       WeatherScreen.WeatherScreen,
-      TramScreen.TramScreen,
+      TramScreenV2.TramScreenV2,
+      #TramScreen.TramScreen,
       #PicScreen.PicScreen,
       #HelloWorldScreen.HelloWorldScreen,
       #WhiteScreen.WhiteScreen,
