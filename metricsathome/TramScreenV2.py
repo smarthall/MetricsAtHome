@@ -23,7 +23,7 @@ class TramScreenV2:
     self._textcolor = (0, 0, 0)
 
     # Setup API
-    api = Data.YarraTrams.YarraTrams('2125f4e4-5026-4660-84ad-76740dee460b')
+    api = Data.YarraTrams.YarraTrams()
 
     # Grab arriving trams
     citynext = api.GetNextPredictedRoutesCollection(self._homestopcity, self._tramline)

@@ -20,6 +20,7 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 from datetime import datetime
+import Cache
 
 from suds.xsd.doctor import Import, ImportDoctor
 from suds.client import Client
@@ -49,12 +50,12 @@ def load_request(data, props):
     return d
 
 class YarraTrams:
-    def __init__(self, guid=None, **kwargs):
+    def __init__(self, **kwargs):
         """Initialise the service. If guid is not provided, one will be
            requested (returned in the callback). Pass callback= or error=
            to receive notification of readiness."""
 
-        self.guid = guid
+        self.guid = Cache.read('metricsathome.Data.YarraTrams-guid')
 
         imp = Import('http://www.w3.org/2001/XMLSchema')
         imp.filter.add('http://www.yarratrams.com.au/pidsservice/')
@@ -64,6 +65,8 @@ class YarraTrams:
 
         if self.guid is None:
             self.guid = self.client.service.GetNewClientGuid()
+
+        Cache.write('metricsathome.Data.YarraTrams-guid', self.guid, 2592000) # Keep for 1 month of no use
 
         headers = self.client.factory.create('PidsClientHeader')
         headers.ClientGuid = self.guid
