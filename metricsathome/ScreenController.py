@@ -24,7 +24,7 @@ class ScreenController:
 
     # Application setup
     logging.basicConfig(level=logging.INFO)
-    Cache.fromdisk('/tmp/metricsathome-cache')
+    Cache.fromdisk('/var/tmp/metricsathome-cache')
 
   def go(self):
     while self._dev.devicePresent():
