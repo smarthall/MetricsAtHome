@@ -1,7 +1,9 @@
 #!/usr/bin/python
 
-from metricsathome.ScreenController import run
+import sys
+sys.path.append(".") 
 
+from metricsathome.ScreenController import run
 run()
 
 
