@@ -25,7 +25,6 @@ class WeatherScreen:
 
     bomapi = BOM()
     self._wdata = bomapi.getData(self._bomarea)
-    self._radar = bomapi.getRadar(self._bomradarcode).convert('RGBA')
     self._radarloop = bomapi.getRadarLoop(self._bomradarcode)
     self._rimg = 0
 
