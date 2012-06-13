@@ -11,6 +11,8 @@ from ftplib import FTP
 class BOM:
   deflayers = ['background', 'topography', 'range',
                'locations', 'copyright', 'legend.0']
+  backlayers = ['background', 'topography']
+  forelayers = ['range', 'locations', 'copyright', 'legend.0']
   modcachekey = 'metricsathome.Data.BOM'
 
   def __init__(self):
@@ -63,7 +65,8 @@ class BOM:
         rdrimgs.append(Image.open(StringIO(s)).convert('RGBA'))
       return rdrimgs
     
-    loopback = self.buildLoopBack(code)
+    background = self.buildOverlay(code, BOM.backlayers)
+    foreground = self.buildOverlay(code, BOM.forelayers)
 
     ftp = FTP(self._ftphost)
     ftp.login()
@@ -83,8 +86,10 @@ class BOM:
         imageio = StringIO(imgget.getvalue())
         imgget.close()
       rdrtrans = Image.open(imageio).convert('RGBA')
-      im = loopback.copy()
+      im = Image.new('RGBA', (512, 564), (255, 255, 255, 0))
+      im.paste(background, (0, 0), background)
       im.paste(rdrtrans, (0, 0), rdrtrans)
+      im.paste(foreground, (0, 0), foreground)
       rdrimgs.append(im)
 
     rdrloopstr = []
@@ -98,14 +103,14 @@ class BOM:
     return rdrimgs
         
 
-  def buildLoopBack(self, code, layers=deflayers):
-    cachekey = BOM.modcachekey + '-loopback(' + code + ',(' + ','.join(layers) + '))'
+  def buildOverlay(self, code, layers=deflayers):
+    cachekey = BOM.modcachekey + '-overlay(' + code + ',(' + ','.join(layers) + '))'
     
     background = Cache.read(cachekey)
     if background is not None:
       return Image.open(StringIO(background))
 
-    im = Image.new('RGBA', (512, 564), (255, 255, 255))
+    im = Image.new('RGBA', (512, 564), (255, 255, 255, 0))
 
     ftp = FTP(self._ftphost)
     ftp.login()
