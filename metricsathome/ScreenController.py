@@ -1,5 +1,6 @@
 import time, sys
 import logging
+import yaml
 
 # utils
 import Data.Cache as Cache
@@ -22,9 +23,22 @@ class ScreenController:
     self._dev = self.getDevice()
     self._screens = self.getScreens()
 
+    # Process the config
+    config = yaml.safe_load(open('conf/default.yaml','r'))
+    # Get global config
+    self._cachelocation = config.get('cachelocation', '/tmp/metricsathome-cache')
+    # get screen configs
+    self._screenconfig = config['screenconfig']
+    # Build schedule
+    schedule = [config['defaultscreens']] * 24
+    for sched in config['screenschedule']:
+      for h in sched['hours']:
+        schedule[h] = sched['screens']
+    self._schedule = schedule
+
     # Application setup
     logging.basicConfig(level=logging.INFO)
-    Cache.fromdisk('/var/tmp/metricsathome-cache')
+    Cache.fromdisk(self._cachelocation)
 
   def go(self):
     while self._dev.devicePresent():
