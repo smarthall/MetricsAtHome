@@ -22,6 +22,9 @@ class X11Frame(wx.Frame):
       wximage = wx.EmptyImage(self._swidth, self._sheight)
       wximage.SetData(self._curframe.convert('RGB').tostring())
       bitmap = wximage.ConvertToBitmap()
+      window_list = self.GetChildren()
+      for w in window_list:
+        w.Destroy()
       wx.StaticBitmap(self,-1,bitmap, (0, 0))
     self._framelock.release()
 
