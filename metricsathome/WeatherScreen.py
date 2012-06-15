@@ -4,8 +4,10 @@ import StringIO
 from Data.BOM import BOM
 
 class WeatherScreen:
-  def __init__(self):
+  def __init__(self, width, height, args):
     self._nextupd = time.time()
+    self.width = width
+    self.height = height
     self._framespeed = 0.5
     self._dayfont = ImageFont.truetype('font/DejaVuSans.ttf',     22)
     self._mainfont = ImageFont.truetype('font/DejaVuSans.ttf',    24)
@@ -28,19 +30,13 @@ class WeatherScreen:
     self._radarloop = bomapi.getRadarLoop(self._bomradarcode)
     self._rimg = 0
 
-  def getInfo(self):
-    return {
-      'duration':     60,
-      'name':         'Weather Screen',
-    }
-
-  def getImage(self, width, height):
+  def getImage(self):
     if self._nextupd >= time.time():
       time.sleep(self._framespeed / 10)
       return None
     self._nextupd = time.time() + self._framespeed
 
-    im = Image.new('RGBA', (width, height), (255, 255, 255))
+    im = Image.new('RGBA', (self.width, self.height), (255, 255, 255))
     draw = ImageDraw.Draw(im)
 
     # Todays data

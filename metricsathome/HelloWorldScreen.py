@@ -1,7 +1,9 @@
 import Image, ImageFont, ImageDraw
 
 class HelloWorldScreen:
-  def __init__(self):
+  def __init__(self, width, height, args):
+    self.width = width
+    self.height = height
     self._xpos = 0
     self._ypos = 0
     self._xdir = 4
@@ -11,14 +13,8 @@ class HelloWorldScreen:
     self._font =  ImageFont.truetype('font/DejaVuSans.ttf', 96)
     (self._textw, self._texth) = self._font.getsize(self._text)
 
-  def getInfo(self):
-    return {
-      'duration':     30,
-      'name':         'Hello World Screen',
-    }
-
-  def getImage(self, width, height):
-    img = Image.new('RGB', (width, height), (255, 255, 255))
+  def getImage(self):
+    img = Image.new('RGB', (self.width, self.height), (255, 255, 255))
     imgDraw = ImageDraw.Draw(img)
     
 

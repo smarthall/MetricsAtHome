@@ -3,7 +3,7 @@ import datetime, time
 import Data.YarraTrams
 
 class TramScreenV2:
-  def __init__(self):
+  def __init__(self, width, height, args):
     self._nextupd = time.time()
 
     # Data
@@ -78,13 +78,7 @@ class TramScreenV2:
     draw.text((290, 170), 'Kate\'s Work', font=self._minutefont, fill=self._textcolor)
     draw.text((802, 170), 'Kate\'s Work', font=self._minutefont, fill=self._textcolor)
 
-  def getInfo(self):
-    return {
-      'duration':     60,
-      'name':         'Yarra Trams screen',
-    }
-
-  def getImage(self, width, height):
+  def getImage(self):
     if self._nextupd < time.time():
         self._nextupd = time.time() + 1
         

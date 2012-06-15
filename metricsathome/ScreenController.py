@@ -1,4 +1,5 @@
 import time, sys
+import datetime
 import logging
 import yaml
 
@@ -42,24 +43,35 @@ class ScreenController:
 
   def go(self):
     while self._dev.devicePresent():
-      cur = self.getNextScreen()
-      si = cur.getInfo()
-      self.showScreen(cur)
+      di = self._dev.getInfo()
+      (scn, dur) = self.getNextScreen(di['width'], di['height'])
+      self.showScreen(scn, dur)
 
-  def showScreen(self, screen):
-    di = self._dev.getInfo()
-    si = screen.getInfo()
-    quitntime = int(time.time() + si['duration'])
+  def showScreen(self, screen, duration):
+    quitntime = int(time.time() + duration)
     while (quitntime > time.time()) and (self._dev.devicePresent()):
-      frame = screen.getImage(di['width'], di['height'])
+      frame = screen.getImage()
       if frame is not None:
         self._dev.showFrame(frame)
       else:
         time.sleep(0.001)
 
-  def getNextScreen(self):
-    self._scrnum = (self._scrnum + 1) % len(self._screens)
-    return self._screens[self._scrnum]()
+  def getNextScreen(self, width, height):
+    # Find the schedule, and screen we want
+    sched = self._schedule[datetime.datetime.now().hour]
+    self._scrnum = (self._scrnum + 1) % len(sched)
+    # Get the screen config
+    conf = self._screenconfig[sched[self._scrnum]]
+    # Import the screen
+    parts = conf['class'].split('.')
+    module = ".".join(parts[:-1])
+    m = __import__( module )
+    for comp in parts[1:]:
+      m = getattr(m, comp)            
+    # Create the screen, passing it the arguments it needs
+    screen = m(width, height, conf['args'])
+
+    return (screen, conf['duration'])
 
   def getDevice(self):
     try:

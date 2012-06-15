@@ -2,19 +2,15 @@ import time
 import Image
 
 class BlackScreen:
-  def __init__(self):
+  def __init__(self, width, height, args):
     self._frameno = 0
+    self.width = width
+    self.height = height
 
-  def getInfo(self):
-    return {
-      'duration':     5,
-      'name':         'Black Screen',
-    }
-
-  def getImage(self, width, height):
+  def getImage(self):
     if self._frameno == 0:
         self._frameno += 1
-        return Image.new('RGB', (width, height), (0, 0, 0))
+        return Image.new('RGB', (self.width, self.height), (0, 0, 0))
     else:
         time.sleep(1)
         return None

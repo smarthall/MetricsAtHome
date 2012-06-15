@@ -3,8 +3,11 @@ import datetime, time
 import Data.YarraTrams
 
 class TramScreen:
-  def __init__(self):
+  def __init__(self, width, height, args):
     self._nextupd = time.time()
+
+    self.width = width
+    self.height = height
 
     # Data
     self._tramline     = 109
@@ -62,13 +65,7 @@ class TramScreen:
 
     #TODO: Get all next three trams
 
-  def getInfo(self):
-    return {
-      'duration':     60,
-      'name':         'Yarra Trams screen',
-    }
-
-  def getImage(self, width, height):
+  def getImage(self):
     if self._nextupd < time.time():
         self._nextupd = time.time() + 1
 
