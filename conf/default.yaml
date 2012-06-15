@@ -11,8 +11,8 @@ screenconfig:
     class: metricsathome.WeatherScreen.WeatherScreen
     duration: 60
     args:
-      radar: 023
-      location: PT_043
+      radar: "023"
+      location: "PT_043"
   blank:
     class: metricsathome.BlackScreen.BlackScreen
     duration: 5
