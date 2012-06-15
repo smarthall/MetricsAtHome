@@ -22,7 +22,6 @@ class ScreenController:
   def __init__(self):
     self._scrnum = -1
     self._dev = self.getDevice()
-    self._screens = self.getScreens()
 
     # Process the config
     config = yaml.safe_load(open('conf/default.yaml','r'))
@@ -80,17 +79,6 @@ class ScreenController:
       print 'Can\'t find a screen, loading X11Driver'
       import Drivers.X11Driver
       return Drivers.X11Driver.X11Driver()
-
-  def getScreens(self):
-    return [
-      BlackScreen.BlackScreen,
-      WeatherScreen.WeatherScreen,
-      TramScreenV2.TramScreenV2,
-      #TramScreen.TramScreen,
-      #PicScreen.PicScreen,
-      #HelloWorldScreen.HelloWorldScreen,
-      #WhiteScreen.WhiteScreen,
-      ]
 
 
 
