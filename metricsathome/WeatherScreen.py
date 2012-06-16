@@ -16,8 +16,8 @@ class WeatherScreen:
     self._textcolor = (0,   0,   0)
     self._maxcolor  = (255, 0,   0)
     self._mincolor  = (50,   50,   255)
-    self._bomarea = 'VIC_PT042'
-    self._bomradarcode = '023'
+    self._bomarea = args.get('weatherdistrict', 'VIC_PT042')
+    self._bomradarcode = args.get('radarcode', '023')
 
     self._wicon = []
     for i in range(1, 17):

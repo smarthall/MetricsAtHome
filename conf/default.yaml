@@ -11,8 +11,8 @@ screenconfig:
     class: metricsathome.WeatherScreen.WeatherScreen
     duration: 60
     args:
-      radar: "023"
-      location: "PT_043"
+      radarcode: "023"
+      weatherdistrict: "VIC_PT042"
   black:
     class: metricsathome.ColorScreen.ColorScreen
     duration: 5
