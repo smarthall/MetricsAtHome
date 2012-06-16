@@ -13,6 +13,14 @@ screenconfig:
     args:
       radarcode: "023"
       weatherdistrict: "VIC_PT042"
+      xmlfile: "IDV10753.xml" #From: http://www.bom.gov.au/info/precis_forecasts.shtml
+  sydweather:
+    class: metricsathome.WeatherScreen.WeatherScreen
+    duration: 60
+    args:
+      radarcode: "713"
+      weatherdistrict: "NSW_PT131"
+      xmlfile: "IDN11060.xml" #From: http://www.bom.gov.au/info/precis_forecasts.shtml
   black:
     class: metricsathome.ColorScreen.ColorScreen
     duration: 5
@@ -35,7 +43,6 @@ screenconfig:
       color: "#c00000"
 
 defaultscreens:
-- green
 - melbweather
 
 screenschedule:
@@ -59,5 +66,5 @@ screenschedule:
   - 4
   - 5
   screens:
-  - blank
+  - black
 

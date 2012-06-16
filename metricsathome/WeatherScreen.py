@@ -16,6 +16,7 @@ class WeatherScreen:
     self._textcolor = (0,   0,   0)
     self._maxcolor  = (255, 0,   0)
     self._mincolor  = (50,   50,   255)
+    self._bomxml = args.get('xmlfile', 'IDV10753.xml')
     self._bomarea = args.get('weatherdistrict', 'VIC_PT042')
     self._bomradarcode = args.get('radarcode', '023')
 
@@ -26,7 +27,7 @@ class WeatherScreen:
       self._wicon.append(im)
 
     bomapi = BOM()
-    self._wdata = bomapi.getData(self._bomarea)
+    self._wdata = bomapi.getData(self._bomarea, self._bomxml)
     self._radarloop = bomapi.getRadarLoop(self._bomradarcode)
     self._rimg = 0
 

@@ -16,19 +16,20 @@ class BOM:
   modcachekey = 'metricsathome.Data.BOM'
 
   def __init__(self):
-    self._xmlurl = 'ftp://ftp2.bom.gov.au/anon/gen/fwo/IDV10753.xml'
+    self._xmlbase = 'ftp://ftp2.bom.gov.au/anon/gen/fwo/'
     self._radarbaseurl = 'ftp://ftp2.bom.gov.au/anon/gen/radar/IDR'
     self._ftphost = 'ftp2.bom.gov.au'
     self._transparentcypath = '/anon/gen/radar_transparencies/'
     self._radarpath = '/anon/gen/radar/'
     self._radarimg = None
 
-  def getData(self, aac):
-    forecasts = Cache.read(BOM.modcachekey + '-data(' + aac + ')');
+  def getData(self, aac, xml):
+    "Get XML codes here: http://www.bom.gov.au/info/precis_forecasts.shtml"
+    forecasts = Cache.read(BOM.modcachekey + '-data(' + aac + ',' + xml + ')');
     if forecasts is not None:
       return forecasts
     
-    wdom = parse(urllib2.urlopen(self._xmlurl))
+    wdom = parse(urllib2.urlopen(self._xmlbase + xml))
     areas = wdom.getElementsByTagName('area')
     area = filter(lambda a: a.attributes['aac'].value == aac, areas)[0]
     fcasts = filter(lambda a: a.attributes != None, area.childNodes)
