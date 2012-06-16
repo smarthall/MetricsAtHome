@@ -1,8 +1,6 @@
 TODO
 ----
 
-* Allow config of the different screens
-* Configure certain screens for certain times
 * Init next screen in different thread
 
 * Screens
