@@ -22,9 +22,10 @@ class ScreenController:
     self._screenconfig = config['screenconfig']
     # Build schedule
     schedule = [config['defaultscreens']] * 24
-    for sched in config['screenschedule']:
-      for h in sched['hours']:
-        schedule[h] = sched['screens']
+    if config['screenschedule'] is not None:
+      for sched in config['screenschedule']:
+        for h in sched['hours']:
+          schedule[h] = sched['screens']
     self._schedule = schedule
 
     # Application setup
