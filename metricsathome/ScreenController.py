@@ -20,6 +20,9 @@ class ScreenController:
     self._cachelocation = config.get('cachelocation', '/tmp/metricsathome-cache')
     # get screen configs
     self._screenconfig = config['screenconfig']
+    for conf in self._screenconfig.keys():
+      if self._screenconfig[conf]['args'] is None:
+        self._screenconfig[conf]['args'] = {}
     # Build schedule
     schedule = [config['defaultscreens']] * 24
     if config['screenschedule'] is not None:

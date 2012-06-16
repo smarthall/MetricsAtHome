@@ -13,12 +13,29 @@ screenconfig:
     args:
       radar: "023"
       location: "PT_043"
-  blank:
-    class: metricsathome.BlackScreen.BlackScreen
+  black:
+    class: metricsathome.ColorScreen.ColorScreen
     duration: 5
     args:
+      color: "#000000"
+  white:
+    class: metricsathome.ColorScreen.ColorScreen
+    duration: 5
+    args:
+      color: "#FFFFFF"
+  green:
+    class: metricsathome.ColorScreen.ColorScreen
+    duration: 5
+    args:
+      color: "#00c000"
+  red:
+    class: metricsathome.ColorScreen.ColorScreen
+    duration: 5
+    args:
+      color: "#c00000"
 
 defaultscreens:
+- green
 - melbweather
 
 screenschedule:
