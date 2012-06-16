@@ -41,6 +41,12 @@ screenconfig:
     duration: 5
     args:
       color: "#c00000"
+  hello:
+    class: metricsathome.HelloWorldScreen.HelloWorldScreen
+    duration: 120
+    args:
+      text: "Hello Config!"
+
 
 defaultscreens:
 - melbweather
