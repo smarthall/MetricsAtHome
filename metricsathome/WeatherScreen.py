@@ -22,7 +22,7 @@ class WeatherScreen:
 
     self._wicon = []
     for i in range(1, 17):
-      im = Image.open('img/icons/' + str(i) + '.png')
+      im = Image.open('img/icons/' + str(i) + '.png').convert('RGBA')
       im = im.resize((89, 83), Image.BICUBIC)
       self._wicon.append(im)
 
@@ -44,7 +44,7 @@ class WeatherScreen:
     today = self._wdata[0]
     maxtext = today.get('air_temperature_maximum', '')
     mintext = today.get('air_temperature_minimum', '')
-    im.paste(self._wicon[int(today['forecast_icon_code'])], (42, 81))
+    im.paste(self._wicon[int(today['forecast_icon_code'])], (42, 81), self._wicon[int(today['forecast_icon_code'])])
     draw.text((87, 42), today['date'].strftime('%A %d %B %Y'), font=self._mainfont, fill=self._textcolor)
     draw.text((179, 81), maxtext, font=self._tempfont, fill=self._maxcolor)
     draw.text((315, 81), mintext, font=self._tempfont, fill=self._mincolor)
@@ -58,7 +58,7 @@ class WeatherScreen:
       xoff = xoffsets[(i - 1) % 3]
       yoff = yoffsets[int((i - 1) / 3)]
       
-      im.paste(self._wicon[int(pred['forecast_icon_code'])], (xoff + 22, yoff + 20))
+      im.paste(self._wicon[int(pred['forecast_icon_code'])], (xoff + 22, yoff + 20), self._wicon[int(pred['forecast_icon_code'])])
       draw.text((xoff + 22, yoff + 8), pred['date'].strftime('%a'), font=self._dayfont, fill=self._textcolor)
       draw.text((xoff + 22, yoff + 113), pred['air_temperature_maximum'], font=self._daytempfont, fill=self._maxcolor)
       draw.text((xoff + 67, yoff + 113), pred['air_temperature_minimum'], font=self._daytempfont, fill=self._mincolor)
