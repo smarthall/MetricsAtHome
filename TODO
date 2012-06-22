@@ -4,6 +4,9 @@ TODO
 * Init next screen in different thread
 
 * Screens
+  * Create a bunch of exception classes
+  * Handle exceptions in screens nicely
+  * Display exceptions on the screen
   * Latitude screen
   * Router usage screen
   * iiNet usage screen
