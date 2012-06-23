@@ -68,7 +68,7 @@ class ScreenController:
       screen = m(width, height, conf['args'])
     except:
       import ErrorScreen
-      screen = ErrorScreen.ErrorScreen(width, height, conf['args'])
+      screen = ErrorScreen.ErrorScreen(width, height, conf['class'], conf['args'])
       duration = 60
 
     return (screen, duration)
