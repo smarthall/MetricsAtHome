@@ -1,4 +1,4 @@
-import time, sys
+import time, sys, os
 import datetime
 import logging
 import yaml
@@ -16,7 +16,10 @@ class ScreenController:
     self._dev = self.getDevice()
 
     # Process the config
-    config = yaml.safe_load(open('conf/default.yaml','r'))
+    if os.path.exists('/etc/metricsathome.yaml'):
+      config = yaml.safe_load(open('/etc/metricsathome.yaml','r'))
+    else:
+      config = yaml.safe_load(open('conf/default.yaml','r'))
     # Get global config
     self._cachelocation = config.get('cachelocation', '/tmp/metricsathome-cache')
     # get screen configs
