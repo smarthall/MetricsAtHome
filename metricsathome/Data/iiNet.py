@@ -13,6 +13,8 @@ def getCurrentMonth(username, password):
     xmlstring = urllib2.urlopen(url).read()
     Cache.write(cachekey, xmlstring, 3600)
   xmlDoc = parseString(xmlstring)
+  if len(xmlDoc.getElementsByTagName('error')):
+    raise Exception('iiNet API Error: ' + xmlDoc.getElementsByTagName('error')[0].firstChild.nodeValue)
   result = {}
   processQuotaReset(xmlDoc.getElementsByTagName('quota_reset')[0], result)
   processExpectedTraffic(xmlDoc.getElementsByTagName('expected_traffic_types')[0], result)
