@@ -1,7 +1,8 @@
 import Image, ImageFont, ImageDraw
+import BaseScreen
 import traceback, time
 
-class ErrorScreen:
+class ErrorScreen(BaseScreen.BaseScreen):
   def __init__(self, width, height, classstr, args):
     self.width = width
     self.height = height

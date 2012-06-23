@@ -1,7 +1,8 @@
 import time
 import Image
+import BaseScreen
 
-class PicScreen:
+class PicScreen(BaseScreen.BaseScreen):
   def __init__(self, width, height, args):
     self._frameno = 0
 

@@ -1,6 +1,7 @@
 import Image, ImageFont, ImageDraw
+import BaseScreen
 
-class HelloWorldScreen:
+class HelloWorldScreen(BaseScreen.BaseScreen):
   def __init__(self, width, height, args):
     self.width = width
     self.height = height

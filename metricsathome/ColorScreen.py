@@ -1,7 +1,8 @@
 import time
 import Image
+import BaseScreen
 
-class ColorScreen:
+class ColorScreen(BaseScreen.BaseScreen):
   def __init__(self, width, height, args):
     self._frameno = 0
     self.width = width

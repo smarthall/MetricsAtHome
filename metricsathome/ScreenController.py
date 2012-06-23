@@ -5,6 +5,7 @@ import yaml
 
 # utils
 import Data.Cache as Cache
+import BaseScreen
 
 # Display Drivers
 from Drivers.SamsungFrameDriver import SamsungFrameDriver, FrameNotFoundException
@@ -66,6 +67,8 @@ class ScreenController:
     # Create the screen, passing it the arguments it needs
     try:
       screen = m(width, height, conf['args'])
+      if not isinstance(screen, BaseScreen.BaseScreen):
+        raise Exception('The selected class is not a screen')
     except:
       import ErrorScreen
       screen = ErrorScreen.ErrorScreen(width, height, conf['class'], conf['args'])

@@ -1,8 +1,9 @@
 import Image, ImageFont, ImageDraw
 import datetime, time
 import Data.YarraTrams
+import BaseScreen
 
-class TramScreenV2:
+class TramScreenV2(BaseScreen.BaseScreen):
   def __init__(self, width, height, args):
     self._nextupd = time.time()
 

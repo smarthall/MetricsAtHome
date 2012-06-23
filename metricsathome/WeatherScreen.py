@@ -2,8 +2,9 @@ import Image, ImageDraw, ImageFont
 import time
 import StringIO
 from Data.BOM import BOM
+import BaseScreen
 
-class WeatherScreen:
+class WeatherScreen(BaseScreen.BaseScreen):
   def __init__(self, width, height, args):
     self._nextupd = time.time()
     self.width = width
