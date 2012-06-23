@@ -11,7 +11,7 @@ def getCurrentMonth(username, password):
   xmlstring = Cache.read(cachekey)
   if xmlstring is None:
     xmlstring = urllib2.urlopen(url).read()
-    Cache.write(cachekey, xmlstring, 60 * 30)
+    Cache.write(cachekey, xmlstring, 3600)
   xmlDoc = parseString(xmlstring)
   result = {}
   processQuotaReset(xmlDoc.getElementsByTagName('quota_reset')[0], result)
