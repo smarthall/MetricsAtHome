@@ -56,6 +56,7 @@ class ScreenController:
     self._scrnum = (self._scrnum + 1) % len(sched)
     # Get the screen config
     conf = self._screenconfig[sched[self._scrnum]]
+    duration = conf['duration']
     # Import the screen
     parts = conf['class'].split('.')
     module = ".".join(parts[:-1])
@@ -63,9 +64,14 @@ class ScreenController:
     for comp in parts[1:]:
       m = getattr(m, comp)            
     # Create the screen, passing it the arguments it needs
-    screen = m(width, height, conf['args'])
+    try:
+      screen = m(width, height, conf['args'])
+    except:
+      import ErrorScreen
+      screen = ErrorScreen.ErrorScreen(width, height, conf['args'])
+      duration = 60
 
-    return (screen, conf['duration'])
+    return (screen, duration)
 
   def getDevice(self):
     try:
