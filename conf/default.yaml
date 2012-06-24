@@ -1,12 +1,26 @@
 cachelocation: /var/tmp/metricsathome-cache
 
 screenconfig:
-  hometrams:
+  citytram:
     class: metricsathome.TramScreenV2.TramScreenV2
     duration: 60
     args:
-      stopno: 1749
       routeno: 109
+      stopno: 1749
+      firststopnum: 1725
+      firststopname: "Daniel's Work"
+      secondstopnum: 3508
+      secondstopname: "Kate's Work"
+  boxhilltram:
+    class: metricsathome.TramScreenV2.TramScreenV2
+    duration: 60
+    args:
+      routeno: 109
+      stopno: 2749
+      firststopnum: 2757
+      firststopname: "Box Hill"
+      secondstopnum: 2757
+      secondstopname: "Box Hill"
   melbweather:
     class: metricsathome.WeatherScreen.WeatherScreen
     duration: 60
@@ -49,28 +63,8 @@ screenconfig:
 
 
 defaultscreens:
-- melbweather
+- citytram
+- boxhilltram
 
 screenschedule:
-- hours:
-  - 6
-  - 7
-  - 8
-  - 9
-  - 10
-  - 11
-  screens:
-  - hometrams
-  - melbweather
-- hours:
-  - 22
-  - 23
-  - 0
-  - 1
-  - 2
-  - 3
-  - 4
-  - 5
-  screens:
-  - black
 

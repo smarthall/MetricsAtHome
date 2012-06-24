@@ -8,12 +8,12 @@ class TramScreenV2(BaseScreen.BaseScreen):
     self._nextupd = time.time()
 
     # Data
-    self._tramline     = 109
-    self._homestopcity = 1749 # Northcote Road to City
-    self._homestopbox  = 2749 # Northcote Road to Box Hill
-    self._katestop     = 3508 # 101 Collins Street to City
-    self._danstop      = 1725 # River Blvd to City
-    self._boxstop      = 2757 # Box Hill to Box Hill
+    self._tramline     = args['routeno']
+    self._stop         = args['stopno']
+    self._firststop    = args['firststopnum']
+    self._firststopstr = args['firststopname']
+    self._secondstop   = args['secondstopnum']
+    self._secondstopstr= args['secondstopname']
 
     # Design files
     self._font =  ImageFont.truetype('font/DejaVuSans.ttf', 18)
@@ -27,43 +27,43 @@ class TramScreenV2(BaseScreen.BaseScreen):
     api = Data.YarraTrams.YarraTrams()
 
     # Grab arriving trams
-    citynext = api.GetNextPredictedRoutesCollection(self._homestopcity, self._tramline)
+    tnext = api.GetNextPredictedRoutesCollection(self._stop, self._tramline)
 
     # Get the times and tram numbers
-    self._cityarr      = citynext[0]['PredictedArrivalDateTime']
-    self._citytram     = citynext[0]['VehicleNo']
-    self._cityarrnext  = citynext[1]['PredictedArrivalDateTime']
-    self._citytramnext = citynext[1]['VehicleNo']
+    self._arr        = tnext[0]['PredictedArrivalDateTime']
+    self._tramno     = tnext[0]['VehicleNo']
+    self._arrnext    = tnext[1]['PredictedArrivalDateTime']
+    self._tramnonext = tnext[1]['VehicleNo']
 
     #Get the schedules for those trams
     try:
-      (citytdetails, citytstops) = api.GetNextPredictedArrivalTimeAtStopsForTramNo(self._citytram)
-      (citytdetailsnext, citytstopsnext) = api.GetNextPredictedArrivalTimeAtStopsForTramNo(self._citytramnext)
+      (tdetails, tstops) = api.GetNextPredictedArrivalTimeAtStopsForTramNo(self._tramno)
+      (tdetailsnext, tstopsnext) = api.GetNextPredictedArrivalTimeAtStopsForTramNo(self._tramnonext)
 
       # Process into dicts
-      citypred = {}
-      cityprednext = {}
+      pred = {}
+      prednext = {}
       try:
-        for p in citytstops:
-          citypred[int(p['StopNo'])] = p['PredictedArrivalDateTime']
+        for p in tstops:
+          pred[int(p['StopNo'])] = p['PredictedArrivalDateTime']
       except KeyError:
-        citypred = {}
+        pred = {}
       try:
-        for p in citytstopsnext:
-          cityprednext[int(p['StopNo'])] = p['PredictedArrivalDateTime']
+        for p in tstopsnext:
+          prednext[int(p['StopNo'])] = p['PredictedArrivalDateTime']
       except KeyError:
-        cityprednext = {}
+        prednext = {}
 
       # Get the interesting data
-      self._arrkate = citypred.get(self._katestop)
-      self._arrdan  = citypred.get(self._danstop)
-      self._arrkatenext = cityprednext.get(self._katestop)
-      self._arrdannext  = cityprednext.get(self._danstop)
+      self._arrfirst       = pred.get(self._firststop)
+      self._arrsecond      = pred.get(self._secondstop)
+      self._arrfirstnext   = prednext.get(self._firststop)
+      self._arrsecondnext  = prednext.get(self._secondstop)
     except ValueError:
-      self._arrkate = None
-      self._arrdan  = None
-      self._arrkatenext = None
-      self._arrdannext  = None
+      self._arrfirst      = None
+      self._arrsecond     = None
+      self._arrfirstnext  = None
+      self._arrsecondnext = None
 
     #TODO: Get all next three trams
 
@@ -74,10 +74,10 @@ class TramScreenV2(BaseScreen.BaseScreen):
     draw.text((536, 248), 'Minutes', font=self._minutefont, fill=self._textcolor)
     draw.text((190,   5), 'Now', font=self._minutefont, fill=self._textcolor)
     draw.text((712,   5), 'Next', font=self._minutefont, fill=self._textcolor)
-    draw.text((290,  80), 'Dan\'s Work', font=self._minutefont, fill=self._textcolor)
-    draw.text((802,  80), 'Dan\'s Work', font=self._minutefont, fill=self._textcolor)
-    draw.text((290, 170), 'Kate\'s Work', font=self._minutefont, fill=self._textcolor)
-    draw.text((802, 170), 'Kate\'s Work', font=self._minutefont, fill=self._textcolor)
+    draw.text((290,  80), self._firststopstr, font=self._minutefont, fill=self._textcolor)
+    draw.text((802,  80), self._firststopstr, font=self._minutefont, fill=self._textcolor)
+    draw.text((290, 170), self._secondstopstr, font=self._minutefont, fill=self._textcolor)
+    draw.text((802, 170), self._secondstopstr, font=self._minutefont, fill=self._textcolor)
 
   def getImage(self):
     if self._nextupd < time.time():
@@ -87,24 +87,24 @@ class TramScreenV2(BaseScreen.BaseScreen):
         draw = ImageDraw.Draw(im)
 
         # Get the deltas
-        citydelta = self._cityarr - datetime.datetime.now()
-        (citywaitm, citywaits) = divmod(citydelta.total_seconds(), 60)
-        citydeltanext = self._cityarrnext - datetime.datetime.now()
-        (citywaitmnext, citywaitsnext) = divmod(citydeltanext.total_seconds(), 60)
+        delta = self._arr - datetime.datetime.now()
+        (waitm, waits) = divmod(delta.total_seconds(), 60)
+        deltanext = self._arrnext - datetime.datetime.now()
+        (waitmnext, waitsnext) = divmod(deltanext.total_seconds(), 60)
 
         # Tram times
-        draw.text((14, 80), str(int(citywaitm)), font=self._bigfont, fill=self._textcolor)
-        draw.text((526, 80), str(int(citywaitmnext)), font=self._bigfont, fill=self._textcolor)
+        draw.text((14, 80), str(int(waitm)), font=self._bigfont, fill=self._textcolor)
+        draw.text((526, 80), str(int(waitmnext)), font=self._bigfont, fill=self._textcolor)
 
         # Stop arrivals
-        if self._arrkate != None:
-          draw.text((290, 200), self._arrkate.strftime('%I:%M%p'), font=self._timefont, fill=self._textcolor)
-        if self._arrdan != None:
-          draw.text((290, 110), self._arrdan.strftime('%I:%M%p'), font=self._timefont, fill=self._textcolor)
-        if self._arrkatenext != None:
-          draw.text((802, 200), self._arrkatenext.strftime('%I:%M%p'), font=self._timefont, fill=self._textcolor)
-        if self._arrdannext != None:
-          draw.text((802, 110), self._arrdannext.strftime('%I:%M%p'), font=self._timefont, fill=self._textcolor)
+        if self._arrfirst != None:
+          draw.text((290, 110), self._arrfirst.strftime('%I:%M%p'), font=self._timefont, fill=self._textcolor)
+        if self._arrsecond != None:
+          draw.text((290, 200), self._arrsecond.strftime('%I:%M%p'), font=self._timefont, fill=self._textcolor)
+        if self._arrfirstnext != None:
+          draw.text((802, 110), self._arrfirstnext.strftime('%I:%M%p'), font=self._timefont, fill=self._textcolor)
+        if self._arrsecondnext != None:
+          draw.text((802, 200), self._arrsecondnext.strftime('%I:%M%p'), font=self._timefont, fill=self._textcolor)
 
 	# Updated time
         draw.text((0, 500), "Updated: %s" % datetime.datetime.now().strftime('%I:%M:%S%p'), font=self._font, fill=self._textcolor)
