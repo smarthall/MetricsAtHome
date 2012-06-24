@@ -17,6 +17,7 @@ class TramScreenV2(BaseScreen.BaseScreen):
 
     # Design files
     self._font =  ImageFont.truetype('font/DejaVuSans.ttf', 18)
+    self._smallfont =  ImageFont.truetype('font/DejaVuSans.ttf', 12)
     self._minutefont =  ImageFont.truetype('font/DejaVuSans.ttf', 24)
     self._titlefont =  ImageFont.truetype('font/DejaVuSans.ttf', 48)
     self._timefont =  ImageFont.truetype('font/DejaVuSans.ttf', 44)
@@ -69,6 +70,7 @@ class TramScreenV2(BaseScreen.BaseScreen):
 
     # Prepare the basic image
     self._im = Image.open('img/TramScreenBack.png')
+    self._tramimage = Image.open('img/d1-class.png').convert('RGBA')
     draw = ImageDraw.Draw(self._im)
     draw.text((24,  248), 'Minutes', font=self._minutefont, fill=self._textcolor)
     draw.text((536, 248), 'Minutes', font=self._minutefont, fill=self._textcolor)
@@ -81,7 +83,7 @@ class TramScreenV2(BaseScreen.BaseScreen):
 
   def getImage(self):
     if self._nextupd < time.time():
-        self._nextupd = time.time() + 1
+        self._nextupd = time.time() + 0.05
         
         im = self._im.copy()
         draw = ImageDraw.Draw(im)
@@ -91,6 +93,12 @@ class TramScreenV2(BaseScreen.BaseScreen):
         (waitm, waits) = divmod(delta.total_seconds(), 60)
         deltanext = self._arrnext - datetime.datetime.now()
         (waitmnext, waitsnext) = divmod(deltanext.total_seconds(), 60)
+
+        # Get tram location
+        trackwidth = im.size[0]
+        tramdist   = (float(delta.total_seconds()) / 600) * trackwidth
+        tramx      = int(trackwidth - tramdist - self._tramimage.size[0])
+        im.paste(self._tramimage, (tramx, 381), self._tramimage)
 
         # Tram times
         draw.text((14, 80), str(int(waitm)), font=self._bigfont, fill=self._textcolor)
@@ -107,10 +115,9 @@ class TramScreenV2(BaseScreen.BaseScreen):
           draw.text((802, 200), self._arrsecondnext.strftime('%I:%M%p'), font=self._timefont, fill=self._textcolor)
 
 	# Updated time
-        draw.text((0, 500), "Updated: %s" % datetime.datetime.now().strftime('%I:%M:%S%p'), font=self._font, fill=self._textcolor)
+        draw.text((480, 0), datetime.datetime.now().strftime('%I:%M:%S%p'), font=self._smallfont, fill=self._textcolor)
 
         return im
     else:
-        time.sleep(0.1)
         return None
 
