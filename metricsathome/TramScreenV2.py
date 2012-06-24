@@ -68,7 +68,7 @@ class TramScreenV2(BaseScreen.BaseScreen):
     #TODO: Get all next three trams
 
     # Prepare the basic image
-    self._im = Image.new('RGB', (1024, 600), (255, 255, 255))
+    self._im = Image.open('img/TramScreenBack.png')
     draw = ImageDraw.Draw(self._im)
     draw.text((24,  248), 'Minutes', font=self._minutefont, fill=self._textcolor)
     draw.text((536, 248), 'Minutes', font=self._minutefont, fill=self._textcolor)
