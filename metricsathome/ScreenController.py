@@ -43,7 +43,13 @@ class ScreenController:
     while self._dev.devicePresent():
       di = self._dev.getInfo()
       (scn, dur) = self.getNextScreen(di['width'], di['height'])
-      self.showScreen(scn, dur)
+      try:
+        self.showScreen(scn, dur)
+      except:
+        import ErrorScreen
+        screen = ErrorScreen.ErrorScreen(di['width'], di['height'], scn.__class__.__name__, {})
+        self.showScreen(screen, 15)
+        
 
   def showScreen(self, screen, duration):
     quitntime = int(time.time() + duration)
@@ -62,13 +68,13 @@ class ScreenController:
     conf = self._screenconfig[sched[self._scrnum]]
     duration = conf['duration']
     # Import the screen
-    parts = conf['class'].split('.')
-    module = ".".join(parts[:-1])
-    m = __import__( module )
-    for comp in parts[1:]:
-      m = getattr(m, comp)            
-    # Create the screen, passing it the arguments it needs
     try:
+      parts = conf['class'].split('.')
+      module = ".".join(parts[:-1])
+      m = __import__( module )
+      for comp in parts[1:]:
+        m = getattr(m, comp)            
+    # Create the screen, passing it the arguments it needs
       screen = m(width, height, conf['args'])
       if not isinstance(screen, BaseScreen.BaseScreen):
         raise Exception('The selected class is not a screen')
