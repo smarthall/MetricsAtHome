@@ -62,16 +62,28 @@ screenconfig:
       text: "Hello Config!"
   clock:
     class: metricsathome.ClockScreen.ClockScreen
-    duration: 30
+    duration: 15
     args:
   nightclock:
     class: metricsathome.ClockScreen.ClockScreen
     duration: 240
     args:
       textcolor: "#303030"
+  weatherpicture:
+    class: metricsathome.PicScreen.PicScreen
+    duration: 15
+    args:
+      picture: 'docs/WeatherScreen.png'
+  defaultpicture:
+    class: metricsathome.PicScreen.PicScreen
+    duration: 15
+    args:
 
 defaultscreens:
-- nightclock
+- clock
+- defaultpicture
+- weatherpicture
+- melbweather
 
 screenschedule:
 
