@@ -13,8 +13,12 @@ class PicScreen(BaseScreen.BaseScreen):
 
     srcim = Image.open(self.picture).convert('RGBA')
     ratio = min(float(width) / srcim.size[0], float(height) / srcim.size[1])
+    if ratio < 1:
+      method = Image.ANTIALIAS
+    else:
+      method = Image.NEAREST
     srcim = srcim.resize((int(srcim.size[0] * ratio),
-                          int(srcim.size[1] * ratio)), Image.ANTIALIAS)
+                          int(srcim.size[1] * ratio)), method)
     draw = FancyDraw.FancyDraw(self.im)
     draw.cpaste(srcim, (width / 2, height / 2), center='both')
 

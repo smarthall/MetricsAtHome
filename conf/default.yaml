@@ -62,7 +62,7 @@ screenconfig:
       text: "Hello Config!"
   clock:
     class: metricsathome.ClockScreen.ClockScreen
-    duration: 15
+    duration: 5
     args:
   nightclock:
     class: metricsathome.ClockScreen.ClockScreen
@@ -78,9 +78,15 @@ screenconfig:
     class: metricsathome.PicScreen.PicScreen
     duration: 15
     args:
+  trampic:
+    class: metricsathome.PicScreen.PicScreen
+    duration: 5
+    args:
+      picture: 'docs/Tram.png'
 
 defaultscreens:
 - clock
+- trampic
 - defaultpicture
 - weatherpicture
 - melbweather
