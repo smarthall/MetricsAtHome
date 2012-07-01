@@ -60,11 +60,18 @@ screenconfig:
     duration: 120
     args:
       text: "Hello Config!"
-
+  clock:
+    class: metricsathome.ClockScreen.ClockScreen
+    duration: 30
+    args:
+  nightclock:
+    class: metricsathome.ClockScreen.ClockScreen
+    duration: 240
+    args:
+      textcolor: "#303030"
 
 defaultscreens:
-- citytram
-- boxhilltram
+- nightclock
 
 screenschedule:
 
