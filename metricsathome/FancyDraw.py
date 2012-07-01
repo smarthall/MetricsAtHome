@@ -24,6 +24,15 @@ class FancyDraw(ImageDraw.ImageDraw):
 
     return self.text((x, y), text, **kwargs)
 
+  def cpaste(self, image, pos, **kwargs):
+    (x, y) = pos
+    mask = kwargs.get('mask', image)
+    (ch, cv) = self._getcentering(kwargs.pop('center', 'none'))
 
+    if ch:
+      x -= image.size[0] / 2
+    if cv:
+      y -= image.size[1] / 2
 
+    self._im.paste(image, (x, y), mask)
 
