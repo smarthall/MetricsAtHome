@@ -2,8 +2,11 @@ TODO
 ----
 
 * Init next screen in different thread
+* Screen transitions
 
 * Screens
+  * Slideshow screen
+  * Collage screen
   * Latitude screen
   * Router usage screen
   * iiNet usage screen
