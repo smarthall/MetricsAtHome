@@ -65,8 +65,9 @@ class WeatherScreen(BaseScreen.BaseScreen):
       draw.text((xoff + 67, yoff + 113), pred['air_temperature_minimum'], font=self._daytempfont, fill=self._mincolor)
 
     # Put the radar in
-    self._rimg = (self._rimg + 1) % len(self._radarloop)
-    im.paste(self._radarloop[self._rimg], (470, 30), self._radarloop[self._rimg])
+    if len(self._radarloop) > 0:
+      self._rimg = (self._rimg + 1) % len(self._radarloop)
+      im.paste(self._radarloop[self._rimg], (470, 30), self._radarloop[self._rimg])
 
     return im
 
