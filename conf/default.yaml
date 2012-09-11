@@ -90,6 +90,12 @@ screenconfig:
       pictures:
         - 'docs/Tram.png'
         - 'docs/WeatherScreen.png'
+  mopcount:
+    class: metricsathome.CountDownScreen.CountDownScreen
+    duration: 5
+    args:
+      datetime: "25 Sep 2012 00:00:00"
+      event: "Mists of Pandaria"
 
 defaultscreens:
 - rndmpic
