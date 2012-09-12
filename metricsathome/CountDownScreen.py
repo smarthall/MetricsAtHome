@@ -66,13 +66,13 @@ class CountDownScreen(BaseScreen.BaseScreen):
         texty = self.height / 2 + self.height / 8
 
         ttlsec = int(timedelta.total_seconds())
-        secs = ttlsec % 60
-        ttlsec -= secs
-        mins = ttlsec % 3600 / 60
-        ttlsec -= mins
-        hours = ttlsec % 86400 / 3600
-        ttlsec -= hours
         days = ttlsec / 86400
+        ttlsec %= 86400
+        hours = ttlsec / 3600
+        ttlsec %= 3600
+        mins = ttlsec / 60
+        ttlsec %= 60
+        secs = ttlsec
 
         # Days
         draw.ctext((xsector * 1, numbery), str(days), font=self.timefont,
