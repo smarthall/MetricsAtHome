@@ -1,4 +1,5 @@
-import Image, ImageDraw, ImageFont
+import Image, ImageFont
+import FancyDraw
 import time
 import StringIO
 from Data.BOM import BOM
@@ -39,14 +40,15 @@ class WeatherScreen(BaseScreen.BaseScreen):
     self._nextupd = time.time() + self._framespeed
 
     im = Image.open('img/WeatherBack.png')
-    draw = ImageDraw.Draw(im)
+    draw = FancyDraw.FancyDraw(im)
 
     # Todays data
     today = self._wdata[0]
     maxtext = today.get('air_temperature_maximum', '')
     mintext = today.get('air_temperature_minimum', '')
     im.paste(self._wicon[int(today['forecast_icon_code']) - 1], (42, 81), self._wicon[int(today['forecast_icon_code']) - 1])
-    draw.text((87, 42), today['date'].strftime('%A %d %B %Y'), font=self._mainfont, fill=self._textcolor)
+    draw.ctext((235, 42), today['date'].strftime('%A %d %B %Y'),
+               font=self._mainfont, fill=self._textcolor, center="horizontal")
     draw.text((179, 81), maxtext, font=self._tempfont, fill=self._maxcolor)
     draw.text((315, 81), mintext, font=self._tempfont, fill=self._mincolor)
     draw.text((42, 183), today['precis'], font=self._mainfont, fill=self._textcolor)
@@ -58,7 +60,7 @@ class WeatherScreen(BaseScreen.BaseScreen):
       pred = self._wdata[i]
       xoff = xoffsets[(i - 1) % 3]
       yoff = yoffsets[int((i - 1) / 3)]
-      
+
       im.paste(self._wicon[int(pred['forecast_icon_code']) - 1], (xoff + 22, yoff + 20), self._wicon[int(pred['forecast_icon_code']) - 1])
       draw.text((xoff + 22, yoff + 8), pred['date'].strftime('%a'), font=self._dayfont, fill=self._textcolor)
       draw.text((xoff + 22, yoff + 113), pred['air_temperature_maximum'], font=self._daytempfont, fill=self._maxcolor)
