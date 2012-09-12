@@ -62,6 +62,9 @@ class CountDownScreen(BaseScreen.BaseScreen):
                    fill=self.textcolor, center='horizontal')
 
         xsector = self.width / 8
+        numbery = self.height / 2
+        texty = self.height / 2 + self.height / 8
+
         ttlsec = int(timedelta.total_seconds())
         secs = ttlsec % 60
         ttlsec -= secs
@@ -72,28 +75,28 @@ class CountDownScreen(BaseScreen.BaseScreen):
         days = ttlsec / 86400
 
         # Days
-        draw.ctext((xsector * 1, 300), str(days), font=self.timefont,
-                   fill=self.textcolor, center='horizontal')
-        draw.ctext((xsector * 1, 370), "days", font=self.timelabelfont,
-                   fill=self.textcolor, center='horizontal')
+        draw.ctext((xsector * 1, numbery), str(days), font=self.timefont,
+                   fill=self.textcolor, center='both')
+        draw.ctext((xsector * 1, texty), "days", font=self.timelabelfont,
+                   fill=self.textcolor, center='both')
 
         # Hours
-        draw.ctext((xsector * 3, 300), str(hours), font=self.timefont,
-                   fill=self.textcolor, center='horizontal')
-        draw.ctext((xsector * 3, 370), "hours", font=self.timelabelfont,
-                   fill=self.textcolor, center='horizontal')
+        draw.ctext((xsector * 3, numbery), str(hours), font=self.timefont,
+                   fill=self.textcolor, center='both')
+        draw.ctext((xsector * 3, texty), "hours", font=self.timelabelfont,
+                   fill=self.textcolor, center='both')
 
         # Minutes
-        draw.ctext((xsector * 5, 300), str(mins), font=self.timefont,
-                   fill=self.textcolor, center='horizontal')
-        draw.ctext((xsector * 5, 370), "minutes", font=self.timelabelfont,
-                   fill=self.textcolor, center='horizontal')
+        draw.ctext((xsector * 5, numbery), str(mins), font=self.timefont,
+                   fill=self.textcolor, center='both')
+        draw.ctext((xsector * 5, texty), "minutes", font=self.timelabelfont,
+                   fill=self.textcolor, center='both')
 
         # Seconds
-        draw.ctext((xsector * 7, 300), str(secs), font=self.timefont,
-                   fill=self.textcolor, center='horizontal')
-        draw.ctext((xsector * 7, 370), "seconds", font=self.timelabelfont,
-                   fill=self.textcolor, center='horizontal')
+        draw.ctext((xsector * 7, numbery), str(secs), font=self.timefont,
+                   fill=self.textcolor, center='both')
+        draw.ctext((xsector * 7, texty), "seconds", font=self.timelabelfont,
+                   fill=self.textcolor, center='both')
 
         return im
 
