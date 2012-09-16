@@ -11,7 +11,7 @@ class iiNetScreen(BaseScreen.BaseScreen):
 
     self.width = width
     self.height = height
-    
+
     data = Data.iiNet.getCurrentMonth(args['user'], args['pass'])
     usage = data['usage']
 
@@ -19,7 +19,7 @@ class iiNetScreen(BaseScreen.BaseScreen):
     draw = ImageDraw.Draw(im)
 
     amax = max(map(lambda a: int(a['anytime']), usage.values()))
-    
+
     i = 0
     barwidth = width / len(usage.keys())
     for k in sorted(usage.keys()):
@@ -30,7 +30,7 @@ class iiNetScreen(BaseScreen.BaseScreen):
       by = height
       draw.rectangle([lx, ty, rx, by], fill=(0, 200, 30))
       i += 1
-      
+
     self._im = im
 
   def getImage(self):

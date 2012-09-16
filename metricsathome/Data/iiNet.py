@@ -6,12 +6,15 @@ import datetime
 iiNetCM = 'https://toolbox.iinet.net.au/cgi-bin/new/volume_usage_xml.cgi?action=login'
 
 def getCurrentMonth(username, password):
-  url = iiNetCM + '&username=' + username + '&password=' + password
+  # Try to return from cache
   cachekey = 'metricsathome.Data.iiNet-(' + iiNetCM + ',' + username + ')'
-  xmlstring = Cache.read(cachekey)
-  if xmlstring is None:
-    xmlstring = urllib2.urlopen(url).read()
-    Cache.write(cachekey, xmlstring, 3600)
+  iinetusage = Cache.read(cachekey)
+  if iinetusage is not None:
+    return iinetusage
+
+  # Fall back to the net
+  url = iiNetCM + '&username=' + username + '&password=' + password
+  xmlstring = urllib2.urlopen(url).read()
   xmlDoc = parseString(xmlstring)
   if len(xmlDoc.getElementsByTagName('error')):
     raise Exception('iiNet API Error: ' + xmlDoc.getElementsByTagName('error')[0].firstChild.nodeValue)
@@ -19,6 +22,9 @@ def getCurrentMonth(username, password):
   processQuotaReset(xmlDoc.getElementsByTagName('quota_reset')[0], result)
   processExpectedTraffic(xmlDoc.getElementsByTagName('expected_traffic_types')[0], result)
   processDailyUsage(xmlDoc.getElementsByTagName('day_hour'), result)
+
+  # Save in cache
+  Cache.write(cachekey, result, 7200)
 
   return result
 
