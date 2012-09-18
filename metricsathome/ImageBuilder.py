@@ -40,7 +40,7 @@ class BarGraph():
       by = height
 
       # Draw the rectangle
-      draw.rectangle([lx, ty, rx, by], fill=(0, 200, 30))
+      draw.rectangle([lx, ty, rx, by], fill=self.color)
 
       # Move across one bar
       i += 1
