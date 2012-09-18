@@ -2,6 +2,7 @@ import Image, ImageFont, ImageDraw
 import datetime, time
 import Data.iiNet
 import BaseScreen
+import ImageBuilder
 
 
 
@@ -18,20 +19,13 @@ class iiNetScreen(BaseScreen.BaseScreen):
     im = Image.new('RGB', (width, height), (255, 255, 255))
     draw = ImageDraw.Draw(im)
 
-    amax = max(map(lambda a: int(a['anytime']), usage.values()))
-
-    i = 0
-    barwidth = width / len(usage.keys())
+    data = []
     for k in sorted(usage.keys()):
-      bh = float(usage[k]['anytime']) / amax * height
-      lx = i * barwidth
-      rx = lx + barwidth
-      ty = height - bh
-      by = height
-      draw.rectangle([lx, ty, rx, by], fill=(0, 200, 30))
-      i += 1
+      data.append(int(usage[k]['anytime']))
 
-    self._im = im
+    ib = ImageBuilder.BarGraph(width, height, data)
+
+    self._im = ib.getImage()
 
   def getImage(self):
     if self._frame == 0:

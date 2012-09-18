@@ -4,32 +4,39 @@ class BarGraph():
   def __init__(self, width, height, data):
     self.size = (width, height)
     self.data = data
+    self.color = (0, 200, 30)
     self.needsredraw = True
 
-  def setSize(width, height):
+  def setSize(self, width, height):
     self.size = (width, height)
     self.needsredraw = True
 
-  def setData(data):
+  def setData(self, data):
     self.data = data
     self.needsredraw = True
 
-  def setColor(red, green, blue):
+  def setColor(self, red, green, blue):
     self.color = (red, green, blue)
     self.needsredraw = True
 
-  def _redraw():
+  def _redraw(self):
     # Make image
     im = Image.new('RGBA', self.size, (255, 255, 255, 0))
     draw = ImageDraw.Draw(im)
 
+    # Gather data
+    height = self.size[1]
+    width = self.size[0]
+
     # Pre calculations
-    yscaling = max(data) / height
-    barwidth = width / len(data)
+    yscaling = float(height) / max(self.data)
+    barwidth = width / len(self.data)
+    print yscaling
+    print barwidth
 
     # Draw
     i = 0
-    for d in data:
+    for d in self.data:
       # Get the height of the bar
       barheight = d * yscaling
 
@@ -49,8 +56,8 @@ class BarGraph():
     self.im = im
     needsredraw = False
 
-  def getImage():
-    if needsredraw:
+  def getImage(self):
+    if self.needsredraw:
       self._redraw()
 
     return self.im
