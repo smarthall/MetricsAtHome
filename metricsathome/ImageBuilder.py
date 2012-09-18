@@ -14,19 +14,36 @@ class BarGraph():
     self.data = data
     self.needsredraw = True
 
+  def setColor(red, green, blue):
+    self.color = (red, green, blue)
+    self.needsredraw = True
+
   def _redraw():
     # Make image
     im = Image.new('RGBA', self.size, (255, 255, 255, 0))
     draw = ImageDraw.Draw(im)
 
     # Pre calculations
-    xscaling = max(data) / height
+    yscaling = max(data) / height
     barwidth = width / len(data)
 
     # Draw
     i = 0
     for d in data:
-      bh = 
+      # Get the height of the bar
+      barheight = d * yscaling
+
+      # Get the rectangle coords
+      lx = i * barwidth
+      rx = (i + 1) * barwidth
+      ty = height - barheight
+      by = height
+
+      # Draw the rectangle
+      draw.rectangle([lx, ty, rx, by], fill=(0, 200, 30))
+
+      # Move across one bar
+      i += 1
 
     #Save image
     self.im = im
