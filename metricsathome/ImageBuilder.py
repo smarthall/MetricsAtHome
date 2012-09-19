@@ -31,8 +31,6 @@ class BarGraph():
     # Pre calculations
     yscaling = float(height) / max(self.data)
     barwidth = width / len(self.data)
-    print yscaling
-    print barwidth
 
     # Draw
     i = 0
