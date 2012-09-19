@@ -12,6 +12,10 @@ class iiNetScreen(BaseScreen.BaseScreen):
     username = args['user']
     password = args['pass']
 
+    # Design files
+    font =  ImageFont.truetype('font/DejaVuSans.ttf', 17)
+    textcolor = (0, 0, 0)
+
     # Get dimensions
     self.width = width
     self.height = height
