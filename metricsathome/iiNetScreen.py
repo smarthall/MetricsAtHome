@@ -1,4 +1,4 @@
-import Image, ImageFont, ImageDraw
+import Image, ImageFont, FancyDraw
 import datetime, time
 import Data.iiNet
 import BaseScreen
@@ -8,24 +8,37 @@ import ImageBuilder
 
 class iiNetScreen(BaseScreen.BaseScreen):
   def __init__(self, width, height, args):
-    self._frame = 0
+    # Get config
+    username = args['user']
+    password = args['pass']
 
+    # Get dimensions
     self.width = width
     self.height = height
 
-    data = Data.iiNet.getCurrentMonth(args['user'], args['pass'])
+    # Record frame numbers
+    self._frame = 0
+
+    # Connect to iiNet, grab usage data
+    data = Data.iiNet.getCurrentMonth(username, password)
     usage = data['usage']
 
-    im = Image.new('RGB', (width, height), (255, 255, 255))
-    draw = ImageDraw.Draw(im)
-
+    # Build a Bar Graph
     data = []
     for k in sorted(usage.keys()):
       data.append(int(usage[k]['anytime']))
 
-    ib = ImageBuilder.BarGraph(width, height, data)
+    ib = ImageBuilder.BarGraph(width - (width / 20), height - (height / 10), data)
 
-    self._im = ib.getImage()
+    # Make our image
+    im = Image.new('RGB', (width, height), (255, 255, 255))
+    draw = FancyDraw.FancyDraw(im)
+
+    # Paste the chart onto the frame
+    draw.cpaste(ib.getImage(), (width / 2, height / 10), center='horizontally')
+
+    # Save the frame
+    self._im = im
 
   def getImage(self):
     if self._frame == 0:
