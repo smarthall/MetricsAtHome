@@ -1,7 +1,10 @@
 MetricsAtHome
 =============
 
-To Run: bin/metricsathome
+To Run
+
+    bin/metricsathome
+
 Make sure that the current working directory is the root of the repository.
 
 This program allows you to use Samsung Photo Displays (other drivers may be
