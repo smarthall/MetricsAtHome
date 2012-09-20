@@ -19,5 +19,6 @@ Without an LCD display it also needs
  - wxPython
 
 On a Fedora system to get all these and dependencies do this:
+
     sudo yum install python-suds python-imaging python-dateutil pyusb PyYAML wxPython python-simplejson
 
