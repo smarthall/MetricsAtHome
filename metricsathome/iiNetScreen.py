@@ -11,9 +11,11 @@ class iiNetScreen(BaseScreen.BaseScreen):
     # Get config
     username = args['user']
     password = args['pass']
+    fontfile = args.get('fontfile', 'font/DejaVuSans.ttf')
 
     # Design files
-    font =  ImageFont.truetype('font/DejaVuSans.ttf', 17)
+    font = ImageFont.truetype(fontfile, 36)
+    smallfont = ImageFont.truetype(fontfile, 24)
     textcolor = (0, 0, 0)
 
     # Get dimensions
@@ -26,20 +28,24 @@ class iiNetScreen(BaseScreen.BaseScreen):
     # Connect to iiNet, grab usage data
     data = Data.iiNet.getCurrentMonth(username, password)
     usage = data['usage']
+    gb_used = int(data['types']['anytime']['used']) / 1024 / 1024 / 1024
+    usedstr = 'Data used: ' + str(int(gb_used)) + ' Gb'
 
     # Build a Bar Graph
-    data = []
+    udata = []
     for k in sorted(usage.keys()):
-      data.append(int(usage[k]['anytime']))
+      udata.append(int(usage[k]['anytime']))
 
-    ib = ImageBuilder.BarGraph(width - (width / 20), height - (height / 10), data)
+    ib = ImageBuilder.BarGraph(width - (width / 20), height - (height / 5), udata)
 
     # Make our image
     im = Image.new('RGB', (width, height), (255, 255, 255))
     draw = FancyDraw.FancyDraw(im)
 
-    # Paste the chart onto the frame
-    draw.cpaste(ib.getImage(), (width / 2, height / 10), center='horizontally')
+    # Assemble Frame
+    draw.cpaste(ib.getImage(), (width / 2, height / 5), center='horizontally')
+    draw.ctext((width / 2, 0), 'iiNet Usage', font=font, fill=textcolor, center='horizontally')
+    draw.ctext((width / 2, 40), usedstr, font=smallfont, fill=textcolor, center='horizontally')
 
     # Save the frame
     self._im = im
