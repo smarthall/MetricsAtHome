@@ -22,11 +22,11 @@ class WeatherScreen(BaseScreen.BaseScreen):
     self._bomarea = args.get('weatherdistrict', 'VIC_PT042')
     self._bomradarcode = args.get('radarcode', '023')
 
-    self._wicon = []
-    for i in range(1, 17):
+    self._wicon = {}
+    for i in range(1, 18):
       im = Image.open('img/icons/' + str(i) + '.png').convert('RGBA')
       im = im.resize((83, 83), Image.BICUBIC)
-      self._wicon.append(im)
+      self._wicon[i] = im
 
     bomapi = BOM()
     self._wdata = bomapi.getData(self._bomarea, self._bomxml)
@@ -46,7 +46,9 @@ class WeatherScreen(BaseScreen.BaseScreen):
     today = self._wdata[0]
     maxtext = today.get('air_temperature_maximum', '')
     mintext = today.get('air_temperature_minimum', '')
-    im.paste(self._wicon[int(today['forecast_icon_code']) - 1], (42, 81), self._wicon[int(today['forecast_icon_code']) - 1])
+
+    icon = self._wicon[int(today['forecast_icon_code'])]
+    im.paste(icon, (42, 81), icon)
     draw.ctext((235, 42), today['date'].strftime('%A %d %B %Y'),
                font=self._mainfont, fill=self._textcolor, center="horizontal")
     draw.text((179, 81), maxtext, font=self._tempfont, fill=self._maxcolor)
@@ -61,7 +63,8 @@ class WeatherScreen(BaseScreen.BaseScreen):
       xoff = xoffsets[(i - 1) % 3]
       yoff = yoffsets[int((i - 1) / 3)]
 
-      im.paste(self._wicon[int(pred['forecast_icon_code']) - 1], (xoff + 22, yoff + 20), self._wicon[int(pred['forecast_icon_code']) - 1])
+      icon = self._wicon[int(pred['forecast_icon_code'])]
+      im.paste(icon, (xoff + 22, yoff + 20), icon)
       draw.text((xoff + 22, yoff + 8), pred['date'].strftime('%a'), font=self._dayfont, fill=self._textcolor)
       draw.text((xoff + 22, yoff + 113), pred['air_temperature_maximum'], font=self._daytempfont, fill=self._maxcolor)
       draw.text((xoff + 67, yoff + 113), pred['air_temperature_minimum'], font=self._daytempfont, fill=self._mincolor)
