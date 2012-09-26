@@ -94,7 +94,7 @@ class TramScreen(BaseScreen.BaseScreen):
         if self._arrbox != None:
           draw.text((0, 340), "Arrives Box Hill: %s" % self._arrbox.strftime('%I:%M%p'), font=self._font, fill=self._textcolor)
 
-	# Updated time
+        # Updated time
         draw.text((0, 500), "Updated: %s" % datetime.datetime.now().strftime('%I:%M:%S%p'), font=self._font, fill=self._textcolor)
 
         return im
