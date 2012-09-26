@@ -84,7 +84,7 @@ class TramScreenV2(BaseScreen.BaseScreen):
   def getImage(self):
     if self._nextupd < time.time():
         self._nextupd = time.time() + 0.05
-        
+
         im = self._im.copy()
         draw = ImageDraw.Draw(im)
 
@@ -114,7 +114,7 @@ class TramScreenV2(BaseScreen.BaseScreen):
         if self._arrsecondnext != None:
           draw.text((802, 200), self._arrsecondnext.strftime('%I:%M%p'), font=self._timefont, fill=self._textcolor)
 
-	# Updated time
+        # Updated time
         draw.text((480, 0), datetime.datetime.now().strftime('%I:%M:%S%p'), font=self._smallfont, fill=self._textcolor)
 
         return im
