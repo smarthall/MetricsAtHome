@@ -86,12 +86,15 @@ class BOM:
         Cache.write(ftpcachekey, imgget.getvalue(), 10800)
         imageio = StringIO(imgget.getvalue())
         imgget.close()
-      rdrtrans = Image.open(imageio).convert('RGBA')
-      im = Image.new('RGBA', (512, 564), (255, 255, 255, 0))
-      im.paste(background, (0, 0), background)
-      im.paste(rdrtrans, (0, 0), rdrtrans)
-      im.paste(foreground, (0, 0), foreground)
-      rdrimgs.append(im)
+      try:
+        rdrtrans = Image.open(imageio).convert('RGBA')
+        im = Image.new('RGBA', (512, 564), (255, 255, 255, 0))
+        im.paste(background, (0, 0), background)
+        im.paste(rdrtrans, (0, 0), rdrtrans)
+        im.paste(foreground, (0, 0), foreground)
+        rdrimgs.append(im)
+      except IOError:
+        print 'WARNING: BOM is including bad images again';
 
     rdrloopstr = []
     for i in rdrimgs:
