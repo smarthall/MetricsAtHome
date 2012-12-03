@@ -18,6 +18,7 @@ class ErrorScreen(BaseScreen.BaseScreen):
     (titlex, titley) = imgDraw.textsize('Error', font=bigfont)
     imgDraw.text((titlex, titley / 2), 'in ' + classstr, font=medfont, fill=textcolor)
     msgy = 60
+    print traceback.format_exc()
     for line in traceback.format_exc().split("\n"):
       imgDraw.text((0, msgy), line, font=smallfont, fill=textcolor)
       (x, y) = imgDraw.textsize(line, font=smallfont)
