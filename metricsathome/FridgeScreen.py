@@ -2,7 +2,7 @@ import Image, ImageFont
 import FancyDraw
 import time
 import StringIO
-from Data.BOM import BOM
+from Data import Fridge
 import BaseScreen
 
 class FridgeScreen(BaseScreen.BaseScreen):
@@ -14,6 +14,8 @@ class FridgeScreen(BaseScreen.BaseScreen):
     self._freezercolor =  (24, 184,  219)
     self._fridgecolor =   (5,  80,   242)
 
+    self._fridge = Image.open('img/fridge.png').convert('RGBA')
+
   def getImage(self):
     if self._nextupd >= time.time():
       time.sleep(1 / 10)
@@ -23,9 +25,11 @@ class FridgeScreen(BaseScreen.BaseScreen):
     im = Image.new('RGBA', self._dimensions, (255, 255, 255))
     draw = FancyDraw.FancyDraw(im)
 
-    draw.text((179, 81), u'-20\u00b0C', font=self._tempfont, fill=self._freezercolor)
-    draw.text((179, 181), u'2\u00b0C', font=self._tempfont, fill=self._fridgecolor)
-
+    im.paste(self._fridge, (20, 20), self._fridge)
+    draw.ctext((152, 98),  u'%.1f' % Fridge.tempA() + u'\u00b0C',
+               font=self._tempfont, fill=self._freezercolor, center='both')
+    draw.ctext((152, 345), u'%.1f' % Fridge.tempB() + u'\u00b0C',
+               font=self._tempfont, fill=self._fridgecolor, center='both')
 
     return im
 
