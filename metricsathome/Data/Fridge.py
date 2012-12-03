@@ -1,14 +1,28 @@
 import urllib2
 import Cache
-import datetime
 
 fridgeURL = 'http://admin01.int.tildaslash.com/fridge/data/'
+modcachekey = 'metricsathome.Data.Fridge'
+cachetime = 10
 
-def _updateData(self):
+def weight():
+  return _updateData()['weight']
+
+def tempA():
+  return _updateData()['tempA']
+
+def tempB():
+  return _updateData()['tempB']
+
+def _updateData():
   items = ['weight', 'tempA', 'tempB']
-  weighttxt = urllib2.urlopen(fridgeURL + 'weight').read()
-  tempAtxt = urllib2.urlopen(fridgeURL + 'tempA').read()
-  tempBtxt = urllib2.urlopen(fridgeURL + 'tempB').read()
+  result = {}
+  for i in items:
+    val = Cache.read(modcachekey + '-' + i)
+    if val == None:
+      val = float(urllib2.urlopen(fridgeURL + i).read())
+      Cache.write(modcachekey + '-' + i, val, cachetime)
+    result[i] = val
 
-
+  return result
 
