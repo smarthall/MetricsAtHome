@@ -25,10 +25,10 @@ class BOM:
 
   def getData(self, aac, xml):
     "Get XML codes here: http://www.bom.gov.au/info/precis_forecasts.shtml"
-    forecasts = Cache.read(BOM.modcachekey + '-data(' + aac + ',' + xml + ')');
+    forecasts = Cache.read(BOM.modcachekey + '-data(' + aac + ',' + xml + ')')
     if forecasts is not None:
       return forecasts
-    
+
     wdom = parse(urllib2.urlopen(self._xmlbase + xml))
     areas = wdom.getElementsByTagName('area')
     area = filter(lambda a: a.attributes['aac'].value == aac, areas)[0]
@@ -49,7 +49,7 @@ class BOM:
 
 
   def getRadar(self, code):
-    self._radar = Cache.read(BOM.modcachekey + '-radar(' + code + ')');
+    self._radar = Cache.read(BOM.modcachekey + '-radar(' + code + ')')
     if self._radar is None:
       img_file = urllib2.urlopen(self._radarbaseurl + code + '.gif' )
       self._radar = img_file.read()
@@ -65,7 +65,7 @@ class BOM:
       for s in rdrloopstr:
         rdrimgs.append(Image.open(StringIO(s)).convert('RGBA'))
       return rdrimgs
-    
+
     background = self.buildOverlay(code, BOM.backlayers)
     foreground = self.buildOverlay(code, BOM.forelayers)
 
@@ -105,11 +105,10 @@ class BOM:
     Cache.write(cachekey, rdrloopstr, 360)
 
     return rdrimgs
-        
 
   def buildOverlay(self, code, layers=deflayers):
     cachekey = BOM.modcachekey + '-overlay(' + code + ',(' + ','.join(layers) + '))'
-    
+
     background = Cache.read(cachekey)
     if background is not None:
       return Image.open(StringIO(background))
