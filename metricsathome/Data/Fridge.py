@@ -20,7 +20,12 @@ def _updateData():
   for i in items:
     val = Cache.read(modcachekey + '-' + i)
     if val == None:
-      val = float(urllib2.urlopen(fridgeURL + i).read())
+      try:
+        val = float(urllib2.urlopen(fridgeURL + i).read())
+      except ValueError:
+        val = 0
+      except urllib2.URLError:
+        val = 0
       Cache.write(modcachekey + '-' + i, val, cachetime)
     result[i] = val
 
