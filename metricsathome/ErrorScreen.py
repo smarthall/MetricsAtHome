@@ -1,6 +1,10 @@
-import Image, ImageFont, ImageDraw
 import BaseScreen
 import traceback, time
+
+try:
+    import Image, ImageFont, ImageDraw
+except ImportError:
+    from PIL import Image, ImageFont, ImageDraw
 
 class ErrorScreen(BaseScreen.BaseScreen):
   def __init__(self, width, height, classstr, args):

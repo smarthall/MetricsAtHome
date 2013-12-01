@@ -1,5 +1,9 @@
 import time, datetime
-import Image, ImageFont
+try:
+  import Image, ImageFont
+except ImportError:
+  from PIL import Image, ImageFont
+
 import BaseScreen
 import FancyDraw
 

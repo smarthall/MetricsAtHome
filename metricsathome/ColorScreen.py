@@ -1,5 +1,9 @@
 import time
-import Image
+try:
+  import Image
+except ImportError:
+  from PIL import Image
+
 import BaseScreen
 
 class ColorScreen(BaseScreen.BaseScreen):

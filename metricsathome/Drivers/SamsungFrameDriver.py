@@ -1,8 +1,12 @@
 import sys, os, time, struct
 import usb.core
 from usb.util import *
-import Image
 import StringIO
+
+try:
+  import Image
+except ImportError:
+  from PIL import Image
 
 class FrameNotFoundException(Exception):
   def __init__(self):

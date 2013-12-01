@@ -1,7 +1,11 @@
 import time, datetime
 import dateutil.parser
 from dateutil.tz import *
-import Image, ImageFont
+try:
+  import Image, ImageFont
+except ImportError:
+  from PIL import Image, ImageFont
+
 import BaseScreen
 import FancyDraw
 

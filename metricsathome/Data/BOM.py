@@ -1,5 +1,9 @@
 import urllib2
-import Image
+try:
+  import Image
+except ImportError:
+  from PIL import Image
+
 from xml.dom.minidom import parse
 import dateutil.parser
 from datetime import timedelta

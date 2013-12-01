@@ -1,4 +1,8 @@
-import Image, ImageFont, ImageDraw
+try:
+  import Image, ImageFont, ImageDraw
+except ImportError:
+  from PIL import Image, ImageFont, ImageDraw
+
 import BaseScreen
 
 class HelloWorldScreen(BaseScreen.BaseScreen):

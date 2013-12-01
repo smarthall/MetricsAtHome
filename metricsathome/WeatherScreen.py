@@ -1,4 +1,8 @@
-import Image, ImageFont
+try:
+  import Image, ImageFont
+except ImportError:
+  from PIL import Image, ImageFont
+
 import FancyDraw
 import time
 import StringIO

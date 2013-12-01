@@ -1,8 +1,12 @@
 import wx
 import sys
-import Image
 import threading
 import time
+
+try:
+    import Image
+except ImportError:
+    from PIL import Image
 
 class X11Frame(wx.Frame):
   def __init__(self, width, height):

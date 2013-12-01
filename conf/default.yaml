@@ -26,7 +26,6 @@ screenconfig:
     duration: 60
     args:
       radarcode: "023"
-      radarcode: "513"
       weatherdistrict: "VIC_PT042"
       xmlfile: "IDV10753.xml" #From: http://www.bom.gov.au/info/precis_forecasts.shtml
   sydweather:
@@ -86,7 +85,7 @@ screenconfig:
       picture: 'docs/Tram.png'
   rndmpic:
     class: metricsathome.RandomPicScreen.RandomPicScreen
-    duration: 5
+    duration: 2
     args:
       pictures:
         - 'docs/Tram.png'
@@ -97,10 +96,16 @@ screenconfig:
     args:
       datetime: "Tue Sep 25 00:00:00 -0700 2012"
       event: "Mists of Pandaria"
+  test:
+    class: metricsathome.FridgeScreen.FridgeScreen
+    duration: 15
+    args:
+
 
 defaultscreens:
-- clock
-- melbweather
+- citytram
+- boxhilltram
+- test
 
 screenschedule:
 

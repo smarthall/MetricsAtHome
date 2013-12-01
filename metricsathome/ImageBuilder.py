@@ -1,4 +1,8 @@
-import Image, ImageDraw
+try:
+  import Image, ImageDraw
+except ImportError:
+  from PIL import Image, ImageDraw
+
 
 class BarGraph():
   def __init__(self, width, height, data):

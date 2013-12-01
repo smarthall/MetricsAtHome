@@ -1,8 +1,16 @@
-import Image, ImageFont, FancyDraw
+try:
+  import Image, ImageFont, FancyDraw
+except ImportError:
+  from PIL import Image, ImageFont, FancyDraw
+
 import datetime, time
 import Data.iiNet
 import BaseScreen
-import ImageBuilder
+try:
+  import ImageBuilder
+except ImportError:
+  from PIL import ImageBuilder
+
 
 
 
