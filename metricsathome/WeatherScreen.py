@@ -21,6 +21,7 @@ class WeatherScreen(BaseScreen.BaseScreen):
     self._bomxml = args.get('xmlfile', 'IDV10753.xml')
     self._bomarea = args.get('weatherdistrict', 'VIC_PT042')
     self._bomradarcode = args.get('radarcode', '023')
+    self._bomradarsecondcode = args.get('secondradarcode', '513')
 
     self._wicon = {}
     for i in range(1, 18):
@@ -31,6 +32,8 @@ class WeatherScreen(BaseScreen.BaseScreen):
     bomapi = BOM()
     self._wdata = bomapi.getData(self._bomarea, self._bomxml)
     self._radarloop = bomapi.getRadarLoop(self._bomradarcode)
+    if not (self._radarloop > 0):
+        self._radarloop = bomapi.getRadarLoop(self._bomradarsecondcode)
     self._rimg = 0
 
   def getImage(self):

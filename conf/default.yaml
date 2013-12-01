@@ -26,6 +26,7 @@ screenconfig:
     duration: 60
     args:
       radarcode: "023"
+      radarcode: "513"
       weatherdistrict: "VIC_PT042"
       xmlfile: "IDV10753.xml" #From: http://www.bom.gov.au/info/precis_forecasts.shtml
   sydweather:
@@ -98,9 +99,8 @@ screenconfig:
       event: "Mists of Pandaria"
 
 defaultscreens:
-- mopcount
-- rndmpic
 - clock
+- melbweather
 
 screenschedule:
 

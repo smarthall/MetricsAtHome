@@ -2,6 +2,7 @@ import time, sys, os
 import datetime
 import logging
 import yaml
+import threading
 
 # utils
 import Data.Cache as Cache
@@ -9,6 +10,17 @@ import BaseScreen
 
 # Display Drivers
 from Drivers.SamsungFrameDriver import SamsungFrameDriver, FrameNotFoundException
+
+class ScreenLoader(threading.Thread):
+  def __init__(self, screen, width, height, args):
+    threading.Thread.__init__(self)
+    self._screeninit = screen
+    self._width = width
+    self._height = height
+    self._args = args
+
+  def run():
+    self.result = self._screeninit(self._width, self._height, self._args)
 
 class ScreenController:
   def __init__(self):
@@ -49,7 +61,7 @@ class ScreenController:
         import ErrorScreen
         screen = ErrorScreen.ErrorScreen(di['width'], di['height'], scn.__class__.__name__, {})
         self.showScreen(screen, 15)
-        
+
 
   def showScreen(self, screen, duration):
     quitntime = int(time.time() + duration)
@@ -67,14 +79,19 @@ class ScreenController:
     # Get the screen config
     conf = self._screenconfig[sched[self._scrnum]]
     duration = conf['duration']
-    # Import the screen
+    # Make the screen
+    screen = self.makeScreen(width, height, conf)
+
+    return (screen, duration)
+
+  def makeScreen(self, width, height, conf):
     try:
       parts = conf['class'].split('.')
       module = ".".join(parts[:-1])
       m = __import__( module )
       for comp in parts[1:]:
-        m = getattr(m, comp)            
-    # Create the screen, passing it the arguments it needs
+        m = getattr(m, comp)
+      # Create the screen, passing it the arguments it needs
       screen = m(width, height, conf['args'])
       if not isinstance(screen, BaseScreen.BaseScreen):
         raise Exception('The selected class is not a screen')
@@ -83,7 +100,7 @@ class ScreenController:
       screen = ErrorScreen.ErrorScreen(width, height, conf['class'], conf['args'])
       duration = 15
 
-    return (screen, duration)
+    return screen
 
   def getDevice(self):
     try:
