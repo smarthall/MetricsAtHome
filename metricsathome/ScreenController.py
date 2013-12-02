@@ -18,8 +18,9 @@ class ScreenLoader(threading.Thread):
     self._width = width
     self._height = height
     self._args = args
+    self.result = None
 
-  def run():
+  def run(self):
     self.result = self._screeninit(self._width, self._height, self._args)
 
 class ScreenController:
@@ -92,7 +93,10 @@ class ScreenController:
       for comp in parts[1:]:
         m = getattr(m, comp)
       # Create the screen, passing it the arguments it needs
-      screen = m(width, height, conf['args'])
+      loader = ScreenLoader(m, width, height, conf['args'])
+      loader.start()
+      loader.join()
+      screen = loader.result
       if not isinstance(screen, BaseScreen.BaseScreen):
         raise Exception('The selected class is not a screen')
     except:
