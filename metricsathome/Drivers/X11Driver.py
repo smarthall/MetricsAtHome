@@ -1,6 +1,6 @@
 import wx
 import sys
-import Image
+from PIL import Image
 import threading
 import time
 

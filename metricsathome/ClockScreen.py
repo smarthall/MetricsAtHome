@@ -1,5 +1,5 @@
 import time, datetime
-import Image, ImageFont
+from PIL import Image, ImageFont
 import BaseScreen
 import FancyDraw
 

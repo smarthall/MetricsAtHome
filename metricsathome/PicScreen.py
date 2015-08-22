@@ -1,5 +1,5 @@
 import time
-import Image
+from PIL import Image
 import BaseScreen
 import FancyDraw
 

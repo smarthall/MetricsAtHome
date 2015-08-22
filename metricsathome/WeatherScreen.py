@@ -1,4 +1,4 @@
-import Image, ImageFont
+from PIL import Image, ImageFont
 import FancyDraw
 import time
 import StringIO

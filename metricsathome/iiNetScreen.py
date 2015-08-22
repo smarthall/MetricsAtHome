@@ -1,4 +1,4 @@
-import Image, ImageFont, FancyDraw
+from PIL import Image, ImageFont, FancyDraw
 import datetime, time
 import Data.iiNet
 import BaseScreen

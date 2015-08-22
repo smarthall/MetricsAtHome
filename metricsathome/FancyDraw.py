@@ -1,4 +1,4 @@
-import ImageDraw
+from PIL import ImageDraw
 
 class FancyDraw(ImageDraw.ImageDraw):
   def __init__(self, image):

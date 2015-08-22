@@ -1,7 +1,7 @@
 import sys, os, time, struct
 import usb.core
 from usb.util import *
-import Image
+from PIL import Image
 import StringIO
 
 class FrameNotFoundException(Exception):
